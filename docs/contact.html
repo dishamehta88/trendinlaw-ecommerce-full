@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact — TREND IN LAW</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;500;600;700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="icon" type="image/jpg" href="image/favicon.jpg">
+  <script src="api.js"></script>
+  <style>
+    /* ── TOKENS ── */
+    :root {
+      --black:      #000000;
+      --dark:       #0a0a0a;
+      --surface:    #181818;
+      --border:     #2a2a2a;
+      --white:      #ffffff;
+      --off-white:  #e8e8e8;
+      --grey:       #888888;
+      --light-grey: #bbbbbb;
+      --accent:     #9DFF21;
+      --accent-glow:rgba(157,255,33,.25);
+    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { background:var(--black); color:var(--white); font-family:'Barlow',sans-serif; overflow-x:hidden; }
+    a    { text-decoration:none; color:inherit; }
+    img  { display:block; max-width:100%; }
+
+    /* ════════════════════════════════
+       ANNOUNCEMENT BAR
+    ════════════════════════════════ */
+    .announcement-bar {
+      background:var(--accent); text-align:center; padding:10px 20px;
+      font-family:'Barlow Condensed',sans-serif; font-size:11px;
+      letter-spacing:3px; text-transform:uppercase; color:var(--black); font-weight:700;
+    }
+
+    /* ════════════════════════════════
+       NAV
+    ════════════════════════════════ */
+    nav { background:var(--black); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:100; }
+    .nav-inner {
+      display:grid; grid-template-columns:1fr auto 1fr;
+      align-items:center; padding:0 40px; height:60px; max-width:1400px; margin:0 auto;
+    }
+    .nav-links { display:flex; gap:32px; list-style:none; }
+    .nav-links a {
+      font-family:'Barlow Condensed',sans-serif; font-size:13px; letter-spacing:2px;
+      text-transform:uppercase; color:var(--light-grey); transition:color .2s; font-weight:500;
+    }
+    .nav-links a:hover, .nav-links a.active { color:var(--accent); }
+    .nav-logo { display:flex; align-items:center; justify-content:center; }
+    .nav-logo img { max-height:50px; width:auto; object-fit:contain; }
+    .nav-icons { display:flex; justify-content:flex-end; align-items:center; gap:20px; }
+    .nav-icons button, .nav-icons a {
+      background:none; border:none; color:var(--light-grey); font-size:15px;
+      cursor:pointer; transition:color .2s; position:relative;
+    }
+    .nav-icons button:hover, .nav-icons a:hover { color:var(--accent); }
+    .cart-badge {
+      position:absolute; top:-8px; right:-8px; background:var(--white); color:var(--black);
+      border-radius:50%; width:16px; height:16px; font-size:9px; font-weight:700;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .mobile-menu-btn { display:none; }
+
+    /* Search bar */
+    #search-input-container {
+      background:var(--dark); border-bottom:1px solid var(--border); padding:12px 40px; display:none;
+    }
+    #search-input-container.active { display:block; }
+    #search-input {
+      width:100%; background:none; border:none; border-bottom:1px solid var(--border);
+      color:var(--white); font-family:'Barlow Condensed',sans-serif; font-size:14px;
+      letter-spacing:2px; padding:8px 0; outline:none; transition:border-color .2s;
+    }
+    #search-input:focus { border-bottom-color:var(--accent); }
+    #search-input::placeholder { color:var(--grey); }
+
+    /* Mobile menu */
+    #mobile-menu {
+      position:fixed; top:0; right:0; width:280px; height:100%;
+      background:var(--dark); border-left:1px solid var(--border); z-index:200;
+      transform:translateX(100%); transition:transform .35s cubic-bezier(.4,0,.2,1); padding:80px 32px 32px;
+    }
+    #mobile-menu.open { transform:translateX(0); }
+    #mobile-menu a {
+      display:block; font-family:'Barlow Condensed',sans-serif; font-size:20px;
+      letter-spacing:3px; text-transform:uppercase; color:var(--light-grey);
+      padding:14px 0; border-bottom:1px solid var(--border); transition:color .2s;
+    }
+    #mobile-menu a:hover { color:var(--accent); }
+    #close-mobile-menu {
+      position:absolute; top:20px; right:20px; background:none; border:none;
+      color:var(--grey); font-size:20px; cursor:pointer; transition:color .2s;
+    }
+    #close-mobile-menu:hover { color:var(--accent); }
+    #mobile-menu-overlay {
+      position:fixed; inset:0; background:rgba(0,0,0,.7); z-index:199;
+      opacity:0; visibility:hidden; transition:opacity .35s, visibility .35s;
+    }
+    #mobile-menu-overlay.open { opacity:1; visibility:visible; }
+
+    /* ════════════════════════════════
+       CART OVERLAY + DRAWER
+    ════════════════════════════════ */
+    #cart-overlay {
+      position:fixed; inset:0; background:rgba(0,0,0,.72); z-index:500;
+      opacity:0; visibility:hidden; transition:opacity .35s, visibility .35s;
+    }
+    #cart-overlay.open { opacity:1; visibility:visible; }
+
+    #cart-drawer {
+      position:fixed; top:0; right:0; width:420px; max-width:100vw; height:100%;
+      background:var(--dark); border-left:1px solid var(--border); z-index:501;
+      display:flex; flex-direction:column; transform:translateX(100%);
+      transition:transform .38s cubic-bezier(.4,0,.2,1);
+    }
+    #cart-drawer.open { transform:translateX(0); }
+
+    .cart-drawer-header {
+      display:flex; align-items:center; justify-content:space-between;
+      padding:22px 28px; border-bottom:1px solid var(--border); flex-shrink:0;
+    }
+    .cart-header-left { display:flex; align-items:baseline; gap:8px; }
+    .cart-drawer-header h2 { font-family:'Bebas Neue',cursive; font-size:22px; letter-spacing:4px; color:var(--white); }
+    .cart-count-label { font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:2px; color:var(--grey); }
+    #close-cart-drawer { background:none; border:none; color:var(--grey); font-size:18px; cursor:pointer; transition:color .2s; padding:4px; }
+    #close-cart-drawer:hover { color:var(--accent); }
+
+    #cart-items-list {
+      flex:1; overflow-y:auto; padding:8px 0;
+      scrollbar-width:thin; scrollbar-color:var(--border) transparent;
+    }
+    #cart-items-list::-webkit-scrollbar { width:4px; }
+    #cart-items-list::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
+
+    .cart-empty {
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      height:100%; gap:14px; color:var(--grey); font-family:'Barlow Condensed',sans-serif;
+      letter-spacing:2px; text-transform:uppercase; font-size:13px; padding:40px; text-align:center;
+    }
+    .cart-empty i { font-size:42px; color:var(--border); margin-bottom:6px; }
+
+    .cart-item-row {
+      display:grid; grid-template-columns:72px 1fr auto; gap:14px;
+      align-items:center; padding:16px 28px; border-bottom:1px solid var(--border); transition:background .2s;
+    }
+    .cart-item-row:hover { background:rgba(255,255,255,.02); }
+    .cart-item-img { width:72px; height:84px; object-fit:cover; display:block; background:var(--surface); }
+    .cart-item-details { min-width:0; }
+    .cart-item-name {
+      font-family:'Barlow Condensed',sans-serif; font-size:13px; letter-spacing:1px;
+      text-transform:uppercase; color:var(--off-white); margin-bottom:3px;
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    }
+    .cart-item-meta { font-size:11px; color:var(--grey); letter-spacing:1px; margin-bottom:10px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .cart-item-qty { display:flex; align-items:center; border:1px solid var(--border); width:fit-content; }
+    .cart-item-qty button {
+      background:none; border:none; color:var(--grey); width:28px; height:28px;
+      font-size:15px; cursor:pointer; transition:color .15s, background .15s;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .cart-item-qty button:hover { color:var(--accent); background:rgba(157,255,33,.07); }
+    .cart-item-qty .qty-num {
+      font-family:'Barlow Condensed',sans-serif; font-size:13px; color:var(--white);
+      width:28px; text-align:center; border-left:1px solid var(--border);
+      border-right:1px solid var(--border); line-height:28px; user-select:none;
+    }
+    .cart-item-right { display:flex; flex-direction:column; align-items:flex-end; gap:16px; flex-shrink:0; }
+    .cart-item-price { font-family:'Barlow Condensed',sans-serif; font-size:14px; color:var(--accent); font-weight:600; letter-spacing:1px; white-space:nowrap; }
+    .cart-remove-btn {
+      background:none; border:none; color:var(--grey); font-size:13px; cursor:pointer;
+      transition:color .15s; padding:2px; display:flex; align-items:center; gap:4px;
+      font-family:'Barlow Condensed',sans-serif; letter-spacing:1px; text-transform:uppercase;
+    }
+    .cart-remove-btn:hover { color:#ff5555; }
+
+    .cart-drawer-footer { border-top:1px solid var(--border); padding:20px 28px 28px; flex-shrink:0; background:var(--dark); }
+    .cart-subtotal-row { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:4px; }
+    .cart-subtotal-row .label { font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--grey); }
+    .cart-subtotal-row .amount { font-family:'Bebas Neue',cursive; font-size:28px; letter-spacing:2px; color:var(--white); }
+    .cart-subtotal-note { font-family:'Barlow Condensed',sans-serif; font-size:11px; color:var(--grey); letter-spacing:1px; margin-bottom:22px; }
+    .btn-checkout {
+      display:block; width:100%; background:var(--accent); color:var(--black); border:none;
+      font-family:'Barlow Condensed',sans-serif; font-size:13px; letter-spacing:5px;
+      text-transform:uppercase; font-weight:700; padding:16px; cursor:pointer;
+      text-align:center; text-decoration:none; transition:background .2s, transform .15s;
+    }
+    .btn-checkout:hover { background:#b8ff00; transform:translateY(-1px); }
+    .btn-continue-shopping {
+      display:block; width:100%; background:transparent; color:var(--grey);
+      border:1px solid var(--border); font-family:'Barlow Condensed',sans-serif;
+      font-size:11px; letter-spacing:4px; text-transform:uppercase; padding:12px;
+      cursor:pointer; text-align:center; margin-top:10px; transition:color .2s, border-color .2s;
+    }
+    .btn-continue-shopping:hover { color:var(--white); border-color:var(--white); }
+
+    /* ════════════════════════════════
+       CART TOAST
+    ════════════════════════════════ */
+    #cart-notification {
+      position:fixed; bottom:30px; right:30px; background:var(--dark);
+      border:1px solid var(--border); border-left:3px solid var(--accent);
+      color:var(--white); font-family:'Barlow Condensed',sans-serif; font-size:13px;
+      letter-spacing:2px; padding:16px 24px; z-index:600;
+      transform:translateY(80px); opacity:0; transition:transform .3s, opacity .3s;
+    }
+    #cart-notification.show { transform:translateY(0); opacity:1; }
+
+    /* ════════════════════════════════
+       AUTH MODALS
+    ════════════════════════════════ */
+    #login-modal, #register-modal {
+      position:fixed; inset:0; background:rgba(0,0,0,.85); z-index:700;
+      display:flex; align-items:center; justify-content:center;
+      opacity:0; pointer-events:none; transition:opacity .3s;
+    }
+    #login-modal.open, #register-modal.open { opacity:1; pointer-events:all; }
+    .auth-box { background:var(--dark); border:1px solid var(--border); width:90%; max-width:400px; padding:40px; position:relative; }
+    .auth-box h2 { font-family:'Bebas Neue',cursive; font-size:32px; letter-spacing:4px; color:var(--white); margin-bottom:28px; }
+    .auth-box input {
+      width:100%; background:var(--surface); border:1px solid var(--border); color:var(--white);
+      font-family:'Barlow',sans-serif; font-size:13px; padding:12px 16px; margin-bottom:14px;
+      outline:none; transition:border-color .2s;
+    }
+    .auth-box input:focus { border-color:var(--accent); }
+    .auth-box input::placeholder { color:var(--grey); }
+    .auth-box button[type="submit"] {
+      width:100%; background:var(--white); color:var(--black); border:none;
+      font-family:'Barlow Condensed',sans-serif; font-size:12px; letter-spacing:4px;
+      text-transform:uppercase; font-weight:700; padding:14px; cursor:pointer;
+      margin-top:8px; transition:background .2s;
+    }
+    .auth-box button[type="submit"]:hover { background:var(--accent); }
+    .auth-box p { font-size:13px; color:var(--grey); text-align:center; margin-top:16px; }
+    .auth-box p a { color:var(--off-white); border-bottom:1px solid var(--border); padding-bottom:1px; transition:color .2s, border-color .2s; }
+    .auth-box p a:hover { color:var(--accent); border-color:var(--accent); }
+    .auth-box .modal-close { position:absolute; top:14px; right:18px; background:none; border:none; color:var(--grey); font-size:18px; cursor:pointer; transition:color .2s; }
+    .auth-box .modal-close:hover { color:var(--accent); }
+
+    /* ════════════════════════════════
+       FIXED BUTTONS
+    ════════════════════════════════ */
+    #back-to-top {
+      position:fixed; bottom:30px; right:30px; background:var(--white); color:var(--black);
+      border:none; width:42px; height:42px; cursor:pointer; z-index:150; font-size:14px;
+      display:none; align-items:center; justify-content:center; transition:background .2s;
+    }
+    #back-to-top.visible { display:flex; }
+    #back-to-top:hover { background:var(--accent); }
+    .whatsapp-btn {
+      position:fixed; bottom:82px; right:30px; background:#25d366; color:var(--white);
+      width:48px; height:48px; border-radius:50%; display:flex; align-items:center;
+      justify-content:center; font-size:22px; z-index:150;
+      transition:background .2s, transform .2s; box-shadow:0 4px 20px rgba(37,211,102,.3);
+    }
+    .whatsapp-btn:hover { background:#128c5e; transform:scale(1.1); }
+
+    /* ════════════════════════════════
+       SCROLL FADE-IN
+    ════════════════════════════════ */
+    .fade-in { opacity:0; transform:translateY(32px); transition:opacity .75s ease, transform .75s ease; }
+    .fade-in.visible { opacity:1; transform:translateY(0); }
+    .fade-in-delay-1 { transition-delay:.12s; }
+
+    /* ════════════════════════════════
+       CONTACT HERO
+    ════════════════════════════════ */
+    .contact-hero {
+      position:relative; height:420px; display:flex; align-items:center;
+      justify-content:center; overflow:hidden; border-bottom:1px solid var(--border);
+    }
+    .contact-hero-bg { position:absolute; inset:0; display:grid; grid-template-columns:1fr 1fr; }
+    .hero-panel { overflow:hidden; }
+    .hero-panel img {
+      width:100%; height:100%; object-fit:cover; filter:brightness(.3) grayscale(30%);
+      transform:scale(1.06); transition:transform 10s ease;
+    }
+    .contact-hero:hover .hero-panel img { transform:scale(1); }
+    .contact-hero-bg::after {
+      content:''; position:absolute; inset:0;
+      background:linear-gradient(to bottom, rgba(0,0,0,.2), rgba(0,0,0,.6));
+      pointer-events:none;
+    }
+    .contact-hero::before {
+      content:''; position:absolute; left:50%; top:0; bottom:0; width:1px;
+      background:linear-gradient(to bottom, transparent, var(--accent), transparent);
+      opacity:.35; z-index:5; transform:translateX(-50%);
+    }
+    .contact-hero-content { position:relative; z-index:10; text-align:center; padding:20px; }
+    .contact-hero-eyebrow {
+      font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:6px;
+      text-transform:uppercase; color:var(--accent); margin-bottom:16px;
+      display:flex; align-items:center; justify-content:center; gap:14px;
+    }
+    .contact-hero-eyebrow::before, .contact-hero-eyebrow::after { content:''; display:block; width:36px; height:1px; background:var(--accent); opacity:.6; }
+    .contact-hero-title {
+      font-family:'Bebas Neue',cursive; font-size:clamp(58px,10vw,120px); line-height:.9;
+      letter-spacing:6px; color:var(--white); text-transform:uppercase;
+      text-shadow:0 0 80px rgba(157,255,33,.1), 0 4px 60px rgba(0,0,0,.8);
+    }
+    .contact-hero-sub { margin-top:20px; font-family:'Barlow Condensed',sans-serif; font-size:12px; letter-spacing:4px; text-transform:uppercase; color:rgba(255,255,255,.45); }
+
+    /* ════════════════════════════════
+       TICKER
+    ════════════════════════════════ */
+    .ticker { background:var(--accent); padding:13px 0; overflow:hidden; white-space:nowrap; }
+    .ticker-track { display:inline-flex; animation:ticker-scroll 22s linear infinite; }
+    .ticker-item { display:inline-flex; align-items:center; gap:18px; margin-right:56px; font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:4px; text-transform:uppercase; color:var(--black); font-weight:700; }
+    .ticker-item i { font-size:6px; color:rgba(0,0,0,.4); }
+    @keyframes ticker-scroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+    /* ════════════════════════════════
+       CONTACT SPLIT
+    ════════════════════════════════ */
+    .contact-split { display:grid; grid-template-columns:1fr 1fr; min-height:680px; border-bottom:1px solid var(--border); }
+
+    /* Form panel */
+    .form-panel { background:var(--dark); padding:80px 72px; border-right:1px solid var(--border); display:flex; flex-direction:column; justify-content:center; }
+    .panel-eyebrow { font-family:'Barlow Condensed',sans-serif; font-size:10px; letter-spacing:5px; text-transform:uppercase; color:var(--accent); margin-bottom:14px; }
+    .panel-title { font-family:'Bebas Neue',cursive; font-size:clamp(34px,4vw,50px); letter-spacing:4px; color:var(--white); margin-bottom:10px; line-height:1; }
+    .panel-subtitle { font-size:13px; color:var(--grey); line-height:1.8; margin-bottom:48px; max-width:340px; }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+    .field { margin-bottom:36px; position:relative; }
+    .field label { display:block; font-family:'Barlow Condensed',sans-serif; font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--grey); margin-bottom:10px; transition:color .2s; }
+    .field:focus-within label { color:var(--accent); }
+    .field input, .field textarea {
+      width:100%; background:transparent; border:none; border-bottom:1px solid var(--border);
+      color:var(--white); font-family:'Barlow',sans-serif; font-size:14px; padding:10px 0;
+      outline:none; transition:border-color .25s, box-shadow .25s; resize:none;
+    }
+    .field input::placeholder, .field textarea::placeholder { color:rgba(255,255,255,.15); font-size:13px; }
+    .field input:focus, .field textarea:focus { border-bottom-color:var(--accent); box-shadow:0 1px 0 0 var(--accent); }
+    .field textarea { min-height:120px; }
+    .field::after { content:''; position:absolute; bottom:0; left:0; width:0; height:1px; background:var(--accent); transition:width .35s ease; pointer-events:none; }
+    .field:focus-within::after { width:100%; }
+    .btn-send {
+      display:inline-flex; align-items:center; gap:12px; background:var(--accent); color:var(--black);
+      border:none; font-family:'Barlow Condensed',sans-serif; font-size:12px; letter-spacing:5px;
+      text-transform:uppercase; font-weight:700; padding:18px 44px; cursor:pointer;
+      transition:background .2s, transform .2s, box-shadow .2s; margin-top:8px;
+    }
+    .btn-send i { font-size:12px; transition:transform .25s; }
+    .btn-send:hover { background:#b4ff4d; box-shadow:0 0 32px var(--accent-glow); transform:translateY(-2px); }
+    .btn-send:hover i { transform:translateX(5px); }
+
+    /* Info panel */
+    .info-panel { background:var(--black); padding:80px 72px; display:flex; flex-direction:column; justify-content:center; position:relative; overflow:hidden; }
+    .info-panel::before { content:'TIL'; position:absolute; bottom:-30px; right:-20px; font-family:'Bebas Neue',cursive; font-size:220px; letter-spacing:-10px; color:rgba(157,255,33,.03); pointer-events:none; line-height:1; }
+    .contact-method { display:flex; align-items:flex-start; gap:20px; padding:22px 0; border-bottom:1px solid var(--border); transition:padding-left .3s; color:inherit; }
+    .contact-method:first-of-type { border-top:1px solid var(--border); }
+    .contact-method:hover { padding-left:8px; }
+    .contact-method-icon { width:44px; height:44px; border:1px solid var(--border); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:16px; color:var(--grey); flex-shrink:0; transition:border-color .3s, color .3s, box-shadow .3s; }
+    .contact-method:hover .contact-method-icon { border-color:var(--accent); color:var(--accent); box-shadow:0 0 18px var(--accent-glow); }
+    .contact-method-body { flex:1; }
+    .contact-method-label { font-family:'Barlow Condensed',sans-serif; font-size:10px; letter-spacing:4px; text-transform:uppercase; color:var(--grey); margin-bottom:4px; }
+    .contact-method-value { font-family:'Barlow Condensed',sans-serif; font-size:15px; letter-spacing:1px; color:var(--off-white); transition:color .3s; }
+    .contact-method:hover .contact-method-value { color:var(--accent); }
+    .social-row { display:flex; gap:14px; margin-top:48px; }
+    .social-btn { width:44px; height:44px; border:1px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:15px; color:var(--grey); transition:border-color .25s, color .25s, box-shadow .25s, transform .25s; }
+    .social-btn:hover { border-color:var(--accent); color:var(--accent); box-shadow:0 0 18px var(--accent-glow); transform:translateY(-3px); }
+
+    /* ════════════════════════════════
+       NEWSLETTER
+    ════════════════════════════════ */
+    .newsletter { background:var(--dark); border-top:1px solid var(--border); padding:80px 40px; text-align:center; }
+    .newsletter h3 { font-family:'Bebas Neue',cursive; font-size:clamp(30px,4vw,48px); letter-spacing:5px; color:var(--white); margin-bottom:10px; }
+    .newsletter p { font-family:'Barlow Condensed',sans-serif; font-size:12px; letter-spacing:3px; text-transform:uppercase; color:var(--grey); margin-bottom:36px; }
+    .newsletter-form { display:flex; max-width:460px; margin:0 auto; border:1px solid var(--border); }
+    .newsletter-form input { flex:1; background:none; border:none; color:var(--white); font-family:'Barlow Condensed',sans-serif; font-size:13px; letter-spacing:2px; padding:14px 20px; outline:none; }
+    .newsletter-form input::placeholder { color:var(--grey); }
+    .newsletter-form button { background:var(--white); color:var(--black); border:none; font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:3px; text-transform:uppercase; padding:14px 24px; cursor:pointer; font-weight:700; transition:background .2s; }
+    .newsletter-form button:hover { background:var(--accent); }
+
+    /* ════════════════════════════════
+       FOOTER
+    ════════════════════════════════ */
+    footer { background:var(--black); border-top:1px solid var(--border); padding:60px 40px 30px; }
+    .footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:40px; max-width:1400px; margin:0 auto 50px; }
+    .footer-brand-image { display:block; width:100%; height:auto; object-fit:contain; border-radius:2px; }
+    .footer-col h4 { font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:4px; text-transform:uppercase; color:var(--white); margin-bottom:20px; }
+    .footer-col ul { list-style:none; }
+    .footer-col ul li { margin-bottom:10px; }
+    .footer-col ul li a { font-size:13px; color:var(--grey); transition:color .2s; display:inline-block; }
+    .footer-col ul li a:hover { color:var(--accent); }
+    .footer-bottom { max-width:1400px; margin:0 auto; border-top:1px solid var(--border); padding-top:24px; display:flex; justify-content:space-between; align-items:center; }
+    .footer-bottom p { font-family:'Barlow Condensed',sans-serif; font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--grey); }
+    .footer-socials { display:flex; gap:18px; }
+    .footer-socials a { color:var(--grey); font-size:14px; transition:color .2s; }
+    .footer-socials a:hover { color:var(--accent); }
+
+    /* ════════════════════════════════
+       RESPONSIVE
+    ════════════════════════════════ */
+    @media (max-width:1024px) {
+      .form-panel, .info-panel { padding:64px 48px; }
+      .footer-grid { grid-template-columns:1fr 1fr; gap:32px; }
+    }
+    @media (max-width:768px) {
+      .nav-inner { padding:0 16px; height:54px; grid-template-columns:auto 1fr auto; }
+      .nav-links { display:none; }
+      .mobile-menu-btn { display:flex; align-items:center; }
+      .nav-logo img { max-height:38px; }
+      .nav-icons { gap:14px; }
+      .nav-icons button, .nav-icons a { font-size:14px; }
+      #search-input-container { padding:10px 16px; }
+      .contact-hero { height:280px; }
+      .contact-hero-bg { grid-template-columns:1fr; }
+      .contact-hero-bg > div:last-child { display:none; }
+      .contact-hero-title { font-size:clamp(44px,15vw,80px); }
+      .contact-split { grid-template-columns:1fr; }
+      .form-panel { border-right:none; border-bottom:1px solid var(--border); }
+      .form-panel, .info-panel { padding:52px 28px; }
+      .panel-subtitle { max-width:100%; }
+      .form-row { grid-template-columns:1fr; gap:0; }
+      .footer-grid { grid-template-columns:1fr; gap:0; text-align:center; }
+      .footer-brand { display:flex; justify-content:center; padding:0 20px 32px; border-bottom:1px solid var(--border); }
+      .footer-brand-image { max-width:280px; }
+      .footer-col { display:flex; flex-direction:column; align-items:center; padding:28px 20px; border-bottom:1px solid var(--border); }
+      .footer-col ul { display:flex; flex-direction:column; align-items:center; gap:12px; }
+      .footer-col ul li { margin-bottom:0; }
+      footer { padding:32px 0 24px; }
+      .footer-bottom { flex-direction:column; gap:14px; text-align:center; padding:24px 20px 0; }
+      .newsletter { padding:50px 20px; }
+      .newsletter-form { flex-direction:column; border:none; }
+      .newsletter-form input { border:1px solid var(--border); border-bottom:none; padding:14px 16px; }
+      .newsletter-form button { border:1px solid var(--border); padding:14px 16px; width:100%; }
+      #cart-drawer { width:100vw; }
+    }
+    @media (max-width:480px) {
+      .contact-hero { height:240px; }
+      .btn-send { width:100%; justify-content:center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════
+       CART OVERLAY + DRAWER
+       Must be present — script targets these IDs
+  ══════════════════════════════════════════ -->
+  <div id="cart-overlay"></div>
+
+  <div id="cart-drawer">
+    <div class="cart-drawer-header">
+      <div class="cart-header-left">
+        <h2>Your Cart</h2>
+        <span class="cart-count-label">(<span id="drawer-item-count">0</span> items)</span>
+      </div>
+      <button id="close-cart-drawer" aria-label="Close cart"><i class="fas fa-times"></i></button>
+    </div>
+    <div id="cart-items-list"></div>
+    <div class="cart-drawer-footer">
+      <div class="cart-subtotal-row">
+        <span class="label">Subtotal</span>
+        <span class="amount" id="cart-subtotal">RS 0</span>
+      </div>
+      <p class="cart-subtotal-note">Shipping &amp; taxes calculated at checkout</p>
+      <a href="order.html" class="btn-checkout" id="btn-proceed-checkout">Proceed to Pay</a>
+      <button class="btn-continue-shopping" id="btn-continue-shopping">Continue Shopping</button>
+    </div>
+  </div>
+
+  <!-- Cart toast notification -->
+  <div id="cart-notification">Item added to cart</div>
+
+  <!-- ══════════════════════════════════════════
+       LOGIN + REGISTER MODALS
+       Must be present — script targets these IDs
+  ══════════════════════════════════════════ -->
+  <div id="login-modal">
+    <div class="auth-box">
+      <button class="modal-close" id="close-login-modal"><i class="fas fa-times"></i></button>
+      <h2>Sign In</h2>
+      <form id="loginForm">
+        <input type="email" id="login-email" placeholder="Email address" required/>
+        <input type="password" id="login-password" placeholder="Password" required/>
+        <button type="submit">Continue</button>
+      </form>
+      <p>Don't have an account? <a href="#" id="show-register">Register</a></p>
+    </div>
+  </div>
+
+  <div id="register-modal">
+    <div class="auth-box">
+      <button class="modal-close" id="close-register-modal"><i class="fas fa-times"></i></button>
+      <h2>Register</h2>
+      <form id="registerForm">
+        <input type="text" id="register-name" placeholder="Full name" required/>
+        <input type="email" id="register-email" placeholder="Email address" required/>
+        <input type="password" id="register-password" placeholder="Password" required/>
+        <button type="submit">Create Account</button>
+      </form>
+      <p>Already have an account? <a href="#" id="show-login">Sign In</a></p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       ANNOUNCEMENT BAR + NAV
+  ══════════════════════════════════════════ -->
+  <div class="announcement-bar">LIMITED RELEASES. EXCLUSIVE DROPS. ELEGANCE IS NOW LIVE.</div>
+
+  <nav>
+    <div class="nav-inner">
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Catalog</a></li>
+        <li><a href="aboutus.html">About</a></li>
+        <li><a href="contact.html" class="active">Contact</a></li>
+      </ul>
+
+      <a href="index.html" class="nav-logo">
+        <img src="image/headerlogo.jpg" alt="Trend In Law"/>
+      </a>
+
+      <div class="nav-icons">
+        <!-- IDs match index.html exactly -->
+        <button id="search-icon-button" aria-label="Search"><i class="fas fa-search"></i></button>
+        <button id="login-modal-button" aria-label="Account"><i class="fas fa-user"></i></button>
+        <div style="position:relative;">
+          <button id="cart-icon" aria-label="Cart">
+            <i class="fas fa-shopping-bag"></i>
+            <span class="cart-badge cart-count">0</span>
+          </button>
+        </div>
+        <button class="mobile-menu-btn" id="mobile-menu-button" aria-label="Menu"><i class="fas fa-bars"></i></button>
+      </div>
+    </div>
+    <div id="search-input-container">
+      <input type="text" id="search-input" placeholder="SEARCH PRODUCTS..."/>
+    </div>
+  </nav>
+
+  <!-- Mobile menu overlay + drawer -->
+  <div id="mobile-menu-overlay"></div>
+  <div id="mobile-menu">
+    <button id="close-mobile-menu"><i class="fas fa-times"></i></button>
+    <a href="index.html">Home</a>
+    <a href="shop.html">Catalog</a>
+    <a href="aboutus.html">About</a>
+    <a href="FAQs.html">FAQ's</a>
+    <a href="fastdelivery.html">Fast Delivery</a>
+    <a href="contact.html">Contact</a>
+    <a href="track.html">Track Order</a>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       CONTACT HERO
+  ══════════════════════════════════════════ -->
+  <section class="contact-hero">
+    <div class="contact-hero-bg">
+      <div class="hero-panel"><img src="image/contactb1.jpg" alt="" loading="eager"/></div>
+      <div class="hero-panel"><img src="image/contactb2.jpg" alt="" loading="eager"/></div>
+    </div>
+    <div class="contact-hero-content">
+      <p class="contact-hero-eyebrow">Reach out</p>
+      <h1 class="contact-hero-title">CONTACT THE<br>DISRUPTORS</h1>
+      <p class="contact-hero-sub">We respond within 24 hours</p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       TICKER
+  ══════════════════════════════════════════ -->
+  <div class="ticker">
+    <div class="ticker-track">
+      <span class="ticker-item"><i class="fas fa-circle"></i> DM Us on Instagram</span>
+      <span class="ticker-item"><i class="fas fa-circle"></i> WhatsApp Available</span>
+      <span class="ticker-item"><i class="fas fa-circle"></i> Karachi, Pakistan</span>
+      <span class="ticker-item"><i class="fas fa-circle"></i> 24 Hour Response</span>
+      <span class="ticker-item"><i class="fas fa-circle"></i> DM Us on Instagram</span>
+      <span class="ticker-item"><i class="fas fa-circle"></i> WhatsApp Available</span>
+      <span class="ticker-item"><i class="fas fa-circle"></i> Karachi, Pakistan</span>
+      <span class="ticker-item"><i class="fas fa-circle"></i> 24 Hour Response</span>
+      <!-- duplicate set for seamless loop -->
+      <span class="ticker-item"><i class="fas fa-circle"></i> DM Us on Instagram</span>
+      <span class="ticker-item"><i class="fas fa-circle"></i> WhatsApp Available</span>
+      <span class="ticker-item"><i class="fas fa-circle"></i> Karachi, Pakistan</span>
+      <span class="ticker-item"><i class="fas fa-circle"></i> 24 Hour Response</span>
+      <span class="ticker-item"><i class="fas fa-circle"></i> DM Us on Instagram</span>
+      <span class="ticker-item"><i class="fas fa-circle"></i> WhatsApp Available</span>
+      <span class="ticker-item"><i class="fas fa-circle"></i> Karachi, Pakistan</span>
+      <span class="ticker-item"><i class="fas fa-circle"></i> 24 Hour Response</span>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       CONTACT SPLIT: FORM + INFO
+  ══════════════════════════════════════════ -->
+  <div class="contact-split">
+
+    <!-- FORM PANEL -->
+    <div class="form-panel fade-in">
+      <p class="panel-eyebrow">Send a message</p>
+      <h2 class="panel-title">LET'S TALK</h2>
+      <p class="panel-subtitle">Have a question about an order, a collaboration idea, or just want to connect? Drop us a line below.</p>
+
+      <form id="contactForm" novalidate>
+        <div class="form-row">
+          <div class="field">
+            <label for="c-name">Full Name</label>
+            <input type="text" id="c-name" name="name" placeholder="John Doe" required/>
+          </div>
+          <div class="field">
+            <label for="c-email">Email Address</label>
+            <input type="email" id="c-email" name="email" placeholder="you@email.com" required/>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="c-subject">Subject</label>
+          <input type="text" id="c-subject" name="subject" placeholder="Order inquiry, collaboration..." required/>
+        </div>
+
+        <div class="field">
+          <label for="c-message">Message</label>
+          <textarea id="c-message" name="message" placeholder="Tell us everything..." required></textarea>
+        </div>
+
+        <button type="submit" class="btn-send">
+          Send Message
+          <i class="fas fa-arrow-right"></i>
+        </button>
+      </form>
+    </div>
+
+    <!-- INFO PANEL -->
+    <div class="info-panel fade-in fade-in-delay-1">
+      <p class="panel-eyebrow">Find us</p>
+      <h2 class="panel-title">GET IN<br>TOUCH</h2>
+      <p class="panel-subtitle">Multiple ways to reach the team. We're always listening.</p>
+
+      <a class="contact-method" href="https://instagram.com/creativestudi0.pk_" target="_blank" rel="noopener">
+        <div class="contact-method-icon"><i class="fab fa-instagram"></i></div>
+        <div class="contact-method-body">
+          <p class="contact-method-label">Instagram</p>
+          <p class="contact-method-value">@creativestudi0.pk</p>
+        </div>
+      </a>
+
+      <a class="contact-method" href="https://wa.me/923700256087" target="_blank" rel="noopener">
+        <div class="contact-method-icon"><i class="fab fa-whatsapp"></i></div>
+        <div class="contact-method-body">
+          <p class="contact-method-label">WhatsApp</p>
+          <p class="contact-method-value">+92 3700 25 6087</p>
+        </div>
+      </a>
+
+      <a class="contact-method" href="mailto:connect.aliyansaleem@gmail.com">
+        <div class="contact-method-icon"><i class="fas fa-envelope"></i></div>
+        <div class="contact-method-body">
+          <p class="contact-method-label">Email</p>
+          <p class="contact-method-value">connect.aliyan@gmail.com</p>
+        </div>
+      </a>
+
+      <div class="contact-method" style="cursor:default;">
+        <div class="contact-method-icon"><i class="fas fa-map-marker-alt"></i></div>
+        <div class="contact-method-body">
+          <p class="contact-method-label">Location</p>
+          <p class="contact-method-value">Karachi, Pakistan</p>
+        </div>
+      </div>
+
+      <div class="social-row">
+        <a class="social-btn" href="https://instagram.com/trendinlaw" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a class="social-btn" href="https://wa.me/923001234567" target="_blank" rel="noopener" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        <a class="social-btn" href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+        <a class="social-btn" href="#" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+      </div>
+    </div>
+
+  </div><!-- /.contact-split -->
+
+  <!-- ══════════════════════════════════════════
+       NEWSLETTER
+  ══════════════════════════════════════════ -->
+  <div class="newsletter fade-in">
+    <h3>Stay in the Loop</h3>
+    <p>First access to drops, exclusive offers, and unreleased previews.</p>
+    <div class="newsletter-form">
+      <input type="email" id="newsletterEmail" placeholder="Your email address"/>
+      <button type="button" id="newsletterSubmit">Subscribe</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════ -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="image/footer2.jpg" alt="Trend In Law" class="footer-brand-image"/>
+      </div>
+      <div class="footer-col">
+        <h4>Navigate</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="shop.html">Catalog</a></li>
+          <li><a href="aboutus.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="FAQs.html">FAQ's</a></li>
+          <li><a href="fastdelivery.html">Fast Delivery</a></li>
+          <li><a href="track.html">Track Your Order</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">WhatsApp</a></li>
+          <li><a href="#">TikTok</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Trend In Law. All rights reserved.</p>
+      <div class="footer-socials">
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-whatsapp"></i></a>
+        <a href="#"><i class="fab fa-tiktok"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Fixed floating buttons -->
+  <a href="https://wa.me/923001234567" target="_blank" class="whatsapp-btn" aria-label="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+  <button id="back-to-top" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+
+  <!-- ══════════════════════════════════════════
+       JAVASCRIPT — fully self-contained
+       All logic runs after DOM is ready because
+       this script tag is at the END of <body>.
+  ══════════════════════════════════════════ -->
+  <script>
+  (function () {
+    'use strict';
+
+    /* ── shorthand ── */
+    const $ = id => document.getElementById(id);
+
+    /* ══════════════════════════════════════════
+       CART ENGINE
+    ══════════════════════════════════════════ */
+    const CART_KEY = 'til_cart';
+    const getCart  = () => JSON.parse(localStorage.getItem(CART_KEY) || '[]');
+    const saveCart = c  => localStorage.setItem(CART_KEY, JSON.stringify(c));
+
+    function updateCartCount() {
+      const total = getCart().reduce((s, i) => s + i.quantity, 0);
+      document.querySelectorAll('.cart-count').forEach(el => el.textContent = total);
+      const lbl = $('drawer-item-count');
+      if (lbl) lbl.textContent = total;
+    }
+
+    function addToCart(item) {
+      const cart = getCart();
+      const idx  = cart.findIndex(i => i.id === item.id && i.color === item.color && i.size === item.size);
+      if (idx > -1) cart[idx].quantity += item.quantity;
+      else cart.push(item);
+      saveCart(cart);
+      updateCartCount();
+      renderCartDrawer();
+      showToast(item.quantity + '\u00d7 ' + item.name + ' added to cart');
+    }
+
+    function removeFromCart(id, color, size) {
+      saveCart(getCart().filter(i => !(i.id === id && i.color === color && i.size === size)));
+      updateCartCount();
+      renderCartDrawer();
+    }
+
+    function updateCartQty(id, color, size, delta) {
+      const cart = getCart();
+      const idx  = cart.findIndex(i => i.id === id && i.color === color && i.size === size);
+      if (idx === -1) return;
+      cart[idx].quantity = Math.max(1, cart[idx].quantity + delta);
+      saveCart(cart);
+      updateCartCount();
+      renderCartDrawer();
+    }
+
+    function renderCartDrawer() {
+      const list     = $('cart-items-list');
+      const subtotal = $('cart-subtotal');
+      if (!list) return;
+
+      const cart = getCart();
+      list.innerHTML = '';
+
+      if (cart.length === 0) {
+        list.innerHTML =
+          '<div class="cart-empty">' +
+          '<i class="fas fa-shopping-bag"></i>' +
+          '<span>Your cart is empty</span>' +
+          '<span style="font-size:11px;color:var(--border)">Add items to get started</span>' +
+          '</div>';
+        if (subtotal) subtotal.textContent = 'RS 0';
+        return;
+      }
+
+      let total = 0;
+      cart.forEach(function(item) {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+        const row = document.createElement('div');
+        row.className = 'cart-item-row';
+        row.innerHTML =
+          '<img class="cart-item-img" src="' + item.image + '" alt="' + item.name + '" onerror="this.src=\'image/placeholder.jpg\'"/>' +
+          '<div class="cart-item-details">' +
+            '<div class="cart-item-name">' + item.name + '</div>' +
+            '<div class="cart-item-meta">' + [item.size, item.color].filter(Boolean).join(' \u00b7 ') + '</div>' +
+            '<div class="cart-item-qty">' +
+              '<button class="qty-btn-minus" data-id="' + item.id + '" data-color="' + item.color + '" data-size="' + item.size + '" aria-label="Decrease">\u2212</button>' +
+              '<span class="qty-num">' + item.quantity + '</span>' +
+              '<button class="qty-btn-plus" data-id="' + item.id + '" data-color="' + item.color + '" data-size="' + item.size + '" aria-label="Increase">+</button>' +
+            '</div>' +
+          '</div>' +
+          '<div class="cart-item-right">' +
+            '<span class="cart-item-price">RS ' + itemTotal.toLocaleString() + '</span>' +
+            '<button class="cart-remove-btn" data-id="' + item.id + '" data-color="' + item.color + '" data-size="' + item.size + '" aria-label="Remove">' +
+              '<i class="fas fa-trash-alt"></i> Remove' +
+            '</button>' +
+          '</div>';
+        list.appendChild(row);
+      });
+
+      if (subtotal) subtotal.textContent = 'RS ' + total.toLocaleString();
+
+      list.querySelectorAll('.qty-btn-minus').forEach(function(b) {
+        b.addEventListener('click', function() { updateCartQty(b.dataset.id, b.dataset.color, b.dataset.size, -1); });
+      });
+      list.querySelectorAll('.qty-btn-plus').forEach(function(b) {
+        b.addEventListener('click', function() { updateCartQty(b.dataset.id, b.dataset.color, b.dataset.size, +1); });
+      });
+      list.querySelectorAll('.cart-remove-btn').forEach(function(b) {
+        b.addEventListener('click', function() { removeFromCart(b.dataset.id, b.dataset.color, b.dataset.size); });
+      });
+    }
+
+    /* ── Cart drawer open / close ── */
+    function openCartDrawer() {
+      renderCartDrawer();
+      $('cart-drawer') && $('cart-drawer').classList.add('open');
+      $('cart-overlay') && $('cart-overlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeCartDrawer() {
+      $('cart-drawer') && $('cart-drawer').classList.remove('open');
+      $('cart-overlay') && $('cart-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    /* ── Toast ── */
+    function showToast(msg) {
+      const n = $('cart-notification');
+      if (!n) return;
+      n.textContent = msg;
+      n.classList.add('show');
+      clearTimeout(n._t);
+      n._t = setTimeout(function() { n.classList.remove('show'); }, 3000);
+    }
+
+    /* ── Wire cart icon ── */
+    $('cart-icon')          && $('cart-icon').addEventListener('click', openCartDrawer);
+    $('close-cart-drawer')  && $('close-cart-drawer').addEventListener('click', closeCartDrawer);
+    $('cart-overlay')       && $('cart-overlay').addEventListener('click', closeCartDrawer);
+    $('btn-continue-shopping') && $('btn-continue-shopping').addEventListener('click', closeCartDrawer);
+    $('btn-proceed-checkout') && $('btn-proceed-checkout').addEventListener('click', function() {
+      if (getCart().length === 0) { showToast('Your cart is empty!'); return; }
+      window.location.href = 'order.html';
+    });
+
+    /* ══════════════════════════════════════════
+       AUTH MODALS
+    ══════════════════════════════════════════ */
+    function openModal(el)  { if (el) { el.classList.add('open');    document.body.style.overflow = 'hidden'; } }
+    function closeModal(el) { if (el) { el.classList.remove('open'); document.body.style.overflow = '';       } }
+
+    var loginModal    = $('login-modal');
+    var registerModal = $('register-modal');
+
+    /* — wire login icon — */
+    $('login-modal-button')   && $('login-modal-button').addEventListener('click',   function() { openModal(loginModal); });
+    $('close-login-modal')    && $('close-login-modal').addEventListener('click',    function() { closeModal(loginModal); });
+    $('close-register-modal') && $('close-register-modal').addEventListener('click', function() { closeModal(registerModal); });
+    $('show-register')        && $('show-register').addEventListener('click', function(e) { e.preventDefault(); closeModal(loginModal);    openModal(registerModal); });
+    $('show-login')           && $('show-login').addEventListener('click',    function(e) { e.preventDefault(); closeModal(registerModal); openModal(loginModal); });
+    loginModal    && loginModal.addEventListener('click',    function(e) { if (e.target === loginModal)    closeModal(loginModal); });
+    registerModal && registerModal.addEventListener('click', function(e) { if (e.target === registerModal) closeModal(registerModal); });
+
+    /* ══════════════════════════════════════════
+       MOBILE MENU
+    ══════════════════════════════════════════ */
+    var mobileMenu    = $('mobile-menu');
+    var mobileOverlay = $('mobile-menu-overlay');
+
+    function openMobileMenu()  { mobileMenu && mobileMenu.classList.add('open');    mobileOverlay && mobileOverlay.classList.add('open');    document.body.style.overflow = 'hidden'; }
+    function closeMobileMenu() { mobileMenu && mobileMenu.classList.remove('open'); mobileOverlay && mobileOverlay.classList.remove('open'); document.body.style.overflow = ''; }
+
+    $('mobile-menu-button') && $('mobile-menu-button').addEventListener('click', openMobileMenu);
+    $('close-mobile-menu')  && $('close-mobile-menu').addEventListener('click',  closeMobileMenu);
+    mobileOverlay && mobileOverlay.addEventListener('click', closeMobileMenu);
+
+    /* ══════════════════════════════════════════
+       SEARCH BAR
+    ══════════════════════════════════════════ */
+    $('search-icon-button') && $('search-icon-button').addEventListener('click', function() {
+      var c = $('search-input-container');
+      if (!c) return;
+      c.classList.toggle('active');
+      if (c.classList.contains('active')) { var si = $('search-input'); si && si.focus(); }
+    });
+
+    /* ══════════════════════════════════════════
+       BACK TO TOP
+    ══════════════════════════════════════════ */
+    var backBtn = $('back-to-top');
+    window.addEventListener('scroll', function() {
+      if (!backBtn) return;
+      if (window.scrollY > 400) backBtn.classList.add('visible');
+      else backBtn.classList.remove('visible');
+    });
+    backBtn && backBtn.addEventListener('click', function() { window.scrollTo({ top:0, behavior:'smooth' }); });
+
+    /* ══════════════════════════════════════════
+       SCROLL FADE-IN
+    ══════════════════════════════════════════ */
+    var fadeObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(function(el) { fadeObs.observe(el); });
+
+    /* ══════════════════════════════════════════
+       CONTACT FORM - BACKEND INTEGRATED
+    ══════════════════════════════════════════ */
+    var contactForm = $('contactForm');
+    
+    contactForm && contactForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      var btn = this.querySelector('.btn-send');
+      var orig = btn.innerHTML;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>&nbsp;Sending...';
+      btn.disabled = true;
+      btn.style.opacity = '0.7';
+
+      // Input fields se data lein
+      const name = $('c-name')?.value.trim() || '';
+      const email = $('c-email')?.value.trim() || '';
+      const subject = $('c-subject')?.value.trim() || '';
+      const message = $('c-message')?.value.trim() || '';
+
+      // Validate fields
+      if (!name || !email || !subject || !message) {
+        showToast('Please fill in all fields.');
+        btn.innerHTML = orig;
+        btn.disabled = false;
+        btn.style.opacity = '1';
+        return;
+      }
+
+      try {
+        // BACKEND API CALL
+        await API.contact.send({ name, email, subject, message });
+        
+        // Success hone par
+        showToast('Message sent! We\'ll be in touch within 24 hours.');
+        this.reset();
+      } catch (err) {
+        // Error hone par
+        showToast(err.message || 'Failed to send message. Please try again.');
+      } finally {
+        // Button ko wapas normal karein
+        btn.innerHTML = orig;
+        btn.disabled = false;
+        btn.style.opacity = '1';
+      }
+    });
+
+    /* ══════════════════════════════════════════
+       LOGIN FORM - BACKEND INTEGRATED
+    ══════════════════════════════════════════ */
+    var loginForm = $('loginForm');
+    
+    loginForm && loginForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      var btn = this.querySelector('button[type="submit"]');
+      var orig = btn.textContent;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>&nbsp;Signing in...';
+      btn.disabled = true;
+
+      const email = $('login-email')?.value.trim() || '';
+      const password = $('login-password')?.value.trim() || '';
+
+      if (!email || !password) {
+        showToast('Please enter both email and password.');
+        btn.textContent = orig;
+        btn.disabled = false;
+        return;
+      }
+
+      try {
+        await API.auth.login({ email, password });
+        showToast('Login successful!');
+        closeModal(loginModal);
+        // Update UI to show logged in state
+        updateAuthUI(true);
+      } catch (err) {
+        showToast(err.message || 'Login failed. Please try again.');
+      } finally {
+        btn.textContent = orig;
+        btn.disabled = false;
+      }
+    });
+
+    /* ══════════════════════════════════════════
+       REGISTER FORM - BACKEND INTEGRATED
+    ══════════════════════════════════════════ */
+    var registerForm = $('registerForm');
+    
+    registerForm && registerForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      var btn = this.querySelector('button[type="submit"]');
+      var orig = btn.textContent;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>&nbsp;Creating account...';
+      btn.disabled = true;
+
+      const name = $('register-name')?.value.trim() || '';
+      const email = $('register-email')?.value.trim() || '';
+      const password = $('register-password')?.value.trim() || '';
+
+      // Split full name into first and last name
+      const nameParts = name.split(' ');
+      const firstName = nameParts[0] || '';
+      const lastName = nameParts.slice(1).join(' ') || '';
+
+      if (!firstName || !email || !password) {
+        showToast('Please fill in all required fields.');
+        btn.textContent = orig;
+        btn.disabled = false;
+        return;
+      }
+
+      if (password.length < 6) {
+        showToast('Password must be at least 6 characters long.');
+        btn.textContent = orig;
+        btn.disabled = false;
+        return;
+      }
+
+      try {
+        await API.auth.register({ firstName, lastName, email, password });
+        showToast('Registration successful! You are now logged in.');
+        closeModal(registerModal);
+        // Update UI to show logged in state
+        updateAuthUI(true);
+      } catch (err) {
+        showToast(err.message || 'Registration failed. Please try again.');
+      } finally {
+        btn.textContent = orig;
+        btn.disabled = false;
+      }
+    });
+
+    /* ══════════════════════════════════════════
+       UPDATE AUTH UI BASED ON LOGIN STATE
+    ══════════════════════════════════════════ */
+    function updateAuthUI(isLoggedIn) {
+      const loginBtn = $('login-modal-button');
+      if (loginBtn) {
+        if (isLoggedIn) {
+          loginBtn.innerHTML = '<i class="fas fa-user-check"></i>';
+          loginBtn.title = 'Logged In';
+        } else {
+          loginBtn.innerHTML = '<i class="fas fa-user"></i>';
+          loginBtn.title = 'Sign In';
+        }
+      }
+    }
+
+    /* ══════════════════════════════════════════
+       NEWSLETTER
+    ══════════════════════════════════════════ */
+    $('newsletterSubmit') && $('newsletterSubmit').addEventListener('click', function() {
+      var emailInput = $('newsletterEmail');
+      var email      = emailInput ? emailInput.value.trim() : '';
+      if (!email) { showToast('Please enter a valid email address.'); return; }
+      
+      // Here you could also integrate with a newsletter API endpoint
+      // For now, just show success message
+      showToast('Subscribed! Welcome to the movement.');
+      if (emailInput) emailInput.value = '';
+    });
+
+    /* ══════════════════════════════════════════
+       INIT
+    ══════════════════════════════════════════ */
+    updateCartCount();
+    
+    // Check if user is already logged in
+    if (API.auth.isLoggedIn()) {
+      updateAuthUI(true);
+    }
+
+  })();
+  </script>
+
+</body>
+</html>

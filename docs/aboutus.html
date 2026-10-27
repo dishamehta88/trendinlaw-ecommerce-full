@@ -1,0 +1,1822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Us — TREND IN LAW</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;500;600;700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="icon" type="image/jpg" href="image/favicon.jpg">
+  <script src="api.js"></script>
+  <style>
+    :root {
+      --black: #000000;
+      --dark: #0a0a0a;
+      --mid: #111111;
+      --surface: #181818;
+      --border: #2a2a2a;
+      --white: #ffffff;
+      --off-white: #e8e8e8;
+      --grey: #888888;
+      --light-grey: #bbbbbb;
+      --accent: #9DFF21;
+      --accent-glow: rgba(157,255,33,0.35);
+      --accent-hover-text: #000000;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--black);
+      color: var(--white);
+      font-family: 'Barlow', sans-serif;
+      font-weight: 400;
+      overflow-x: hidden;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+
+    /* ── ANNOUNCEMENT BAR ── */
+    .announcement-bar {
+      background: var(--accent);
+      text-align: center;
+      padding: 10px 20px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--black);
+      font-weight: 700;
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--black);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-inner {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 0 40px;
+      height: 60px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--light-grey);
+      transition: color 0.2s;
+      font-weight: 500;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--accent); }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-logo img {
+      max-height: 50px;
+      width: auto;
+      display: block;
+      object-fit: contain;
+    }
+
+    .nav-icons {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav-icons button,
+    .nav-icons a {
+      background: none;
+      border: none;
+      color: var(--light-grey);
+      font-size: 15px;
+      cursor: pointer;
+      transition: color 0.2s;
+      position: relative;
+    }
+
+    .nav-icons button:hover,
+    .nav-icons a:hover { color: var(--accent); }
+
+    .cart-badge {
+      position: absolute;
+      top: -8px; right: -8px;
+      background: var(--white);
+      color: var(--black);
+      border-radius: 50%;
+      width: 16px; height: 16px;
+      font-size: 9px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .mobile-menu-btn { display: none; }
+
+    /* ── SEARCH BAR ── */
+    #search-input-container {
+      background: var(--dark);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 40px;
+      display: none;
+    }
+    #search-input-container.active { display: block; }
+    #search-input {
+      width: 100%;
+      background: none;
+      border: none;
+      border-bottom: 1px solid var(--border);
+      color: var(--white);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 14px;
+      letter-spacing: 2px;
+      padding: 8px 0;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    #search-input:focus { border-bottom-color: var(--accent); }
+    #search-input::placeholder { color: var(--grey); }
+
+    /* ── MOBILE MENU ── */
+    #mobile-menu {
+      position: fixed;
+      top: 0; right: 0;
+      width: 280px; height: 100%;
+      background: var(--dark);
+      border-left: 1px solid var(--border);
+      z-index: 200;
+      transform: translateX(100%);
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      padding: 80px 32px 32px;
+    }
+    #mobile-menu.open { transform: translateX(0); }
+    #mobile-menu a {
+      display: block;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 20px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--light-grey);
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.2s;
+    }
+    #mobile-menu a:hover { color: var(--accent); }
+    #close-mobile-menu {
+      position: absolute;
+      top: 20px; right: 20px;
+      background: none; border: none;
+      color: var(--grey);
+      font-size: 20px;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    #close-mobile-menu:hover { color: var(--accent); }
+    #mobile-menu-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 199;
+      opacity: 0; visibility: hidden;
+      transition: opacity 0.35s, visibility 0.35s;
+    }
+    #mobile-menu-overlay.open { opacity: 1; visibility: visible; }
+
+    /* ══════════════════════════════════════════════
+       CART DRAWER (from index)
+    ══════════════════════════════════════════════ */
+    #cart-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.72);
+      z-index: 500;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.35s, visibility 0.35s;
+    }
+    #cart-overlay.open { opacity: 1; visibility: visible; }
+
+    #cart-drawer {
+      position: fixed;
+      top: 0; right: 0;
+      width: 420px;
+      max-width: 100vw;
+      height: 100%;
+      background: var(--dark);
+      border-left: 1px solid var(--border);
+      z-index: 501;
+      display: flex;
+      flex-direction: column;
+      transform: translateX(100%);
+      transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #cart-drawer.open { transform: translateX(0); }
+
+    .cart-drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 28px;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .cart-drawer-header .cart-header-left { display: flex; align-items: baseline; gap: 8px; }
+    .cart-drawer-header h2 {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 22px;
+      letter-spacing: 4px;
+      color: var(--white);
+    }
+    .cart-drawer-header .cart-count-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--grey);
+    }
+    #close-cart-drawer {
+      background: none; border: none;
+      color: var(--grey);
+      font-size: 18px;
+      cursor: pointer;
+      transition: color 0.2s;
+      padding: 4px;
+    }
+    #close-cart-drawer:hover { color: var(--accent); }
+
+    #cart-items-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 0;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+    #cart-items-list::-webkit-scrollbar { width: 4px; }
+    #cart-items-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+    .cart-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      gap: 14px;
+      color: var(--grey);
+      font-family: 'Barlow Condensed', sans-serif;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-size: 13px;
+      padding: 40px;
+      text-align: center;
+    }
+    .cart-empty i { font-size: 42px; color: var(--border); margin-bottom: 6px; }
+
+    .cart-item-row {
+      display: grid;
+      grid-template-columns: 72px 1fr auto;
+      gap: 14px;
+      align-items: center;
+      padding: 16px 28px;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+    .cart-item-row:hover { background: rgba(255,255,255,0.02); }
+
+    .cart-item-img {
+      width: 72px; height: 84px;
+      object-fit: cover;
+      display: block;
+      background: var(--surface);
+      flex-shrink: 0;
+    }
+
+    .cart-item-details { min-width: 0; }
+
+    .cart-item-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--off-white);
+      margin-bottom: 3px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .cart-item-meta {
+      font-size: 11px;
+      color: var(--grey);
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .cart-item-qty {
+      display: flex;
+      align-items: center;
+      border: 1px solid var(--border);
+      width: fit-content;
+    }
+    .cart-item-qty button {
+      background: none; border: none;
+      color: var(--grey);
+      width: 28px; height: 28px;
+      font-size: 15px;
+      cursor: pointer;
+      transition: color 0.15s, background 0.15s;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cart-item-qty button:hover { color: var(--accent); background: rgba(157,255,33,0.07); }
+    .cart-item-qty .qty-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      color: var(--white);
+      width: 28px;
+      text-align: center;
+      border-left: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      line-height: 28px;
+      user-select: none;
+    }
+
+    .cart-item-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+    .cart-item-price {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 14px;
+      color: var(--accent);
+      font-weight: 600;
+      letter-spacing: 1px;
+      white-space: nowrap;
+    }
+    .cart-remove-btn {
+      background: none; border: none;
+      color: var(--grey);
+      font-size: 13px;
+      cursor: pointer;
+      transition: color 0.15s;
+      padding: 2px;
+      display: flex; align-items: center; gap: 4px;
+      font-family: 'Barlow Condensed', sans-serif;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .cart-remove-btn:hover { color: #ff5555; }
+
+    .cart-drawer-footer {
+      border-top: 1px solid var(--border);
+      padding: 20px 28px 28px;
+      flex-shrink: 0;
+      background: var(--dark);
+    }
+    .cart-subtotal-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 4px;
+    }
+    .cart-subtotal-row .label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--grey);
+    }
+    .cart-subtotal-row .amount {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 28px;
+      letter-spacing: 2px;
+      color: var(--white);
+    }
+    .cart-subtotal-note {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      color: var(--grey);
+      letter-spacing: 1px;
+      margin-bottom: 22px;
+    }
+    .btn-checkout {
+      display: block;
+      width: 100%;
+      background: var(--accent);
+      color: var(--black);
+      border: none;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 16px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-checkout:hover { background: #b8ff00; transform: translateY(-1px); }
+    .btn-continue-shopping {
+      display: block;
+      width: 100%;
+      background: transparent;
+      color: var(--grey);
+      border: 1px solid var(--border);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      padding: 12px;
+      cursor: pointer;
+      text-align: center;
+      margin-top: 10px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .btn-continue-shopping:hover { color: var(--white); border-color: var(--white); }
+
+    /* ── CART NOTIFICATION ── */
+    #cart-notification {
+      position: fixed;
+      bottom: 30px; right: 30px;
+      background: var(--dark);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      color: var(--white);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      letter-spacing: 2px;
+      padding: 16px 24px;
+      z-index: 400;
+      transform: translateY(80px);
+      opacity: 0;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    #cart-notification.show { transform: translateY(0); opacity: 1; }
+
+    /* ── LOGIN MODALS ── */
+    #login-modal, #register-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 300;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    #login-modal.open, #register-modal.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .auth-box {
+      background: var(--dark);
+      border: 1px solid var(--border);
+      width: 90%;
+      max-width: 400px;
+      padding: 40px;
+      position: relative;
+    }
+    .auth-box h2 {
+      font-family: 'Bebas Neue', cursive;
+      font-size: 32px;
+      letter-spacing: 4px;
+      color: var(--white);
+      margin-bottom: 28px;
+    }
+    .auth-box input {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--white);
+      font-family: 'Barlow', sans-serif;
+      font-size: 13px;
+      padding: 12px 16px;
+      margin-bottom: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .auth-box input:focus { border-color: var(--accent); }
+    .auth-box input::placeholder { color: var(--grey); }
+    .auth-box button[type="submit"] {
+      width: 100%;
+      background: var(--white);
+      color: var(--black);
+      border: none;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      font-weight: 700;
+      padding: 14px;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 0.2s, color 0.2s;
+    }
+    .auth-box button[type="submit"]:hover { background: var(--accent); color: var(--black); }
+    .auth-box p {
+      font-size: 13px;
+      color: var(--grey);
+      text-align: center;
+      margin-top: 16px;
+    }
+    .auth-box p a {
+      color: var(--off-white);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .auth-box p a:hover { color: var(--accent); border-color: var(--accent); }
+    .auth-box .modal-close {
+      position: absolute;
+      top: 14px; right: 18px;
+    }
+
+    /* ── PRODUCT MODAL (minimal, for add-to-cart) ── */
+    #product-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 300;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    #product-modal.open { opacity: 1; pointer-events: all; }
+    .modal-box {
+      background: var(--dark);
+      border: 1px solid var(--border);
+      max-width: 480px;
+      width: 90%;
+      padding: 40px;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 16px; right: 20px;
+      background: none; border: none;
+      color: var(--grey);
+      font-size: 18px;
+      cursor: pointer;
+    }
+    .modal-close:hover { color: var(--accent); }
+
+    /* ══════════════════════════════════════════════
+       ABOUT PAGE — SPECIFIC STYLES (your original design)
+    ══════════════════════════════════════════════ */
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .fade-in-delay-1 { transition-delay: 0.15s; }
+    .fade-in-delay-2 { transition-delay: 0.3s; }
+    .fade-in-delay-3 { transition-delay: 0.45s; }
+
+    .about-hero {
+      position: relative;
+      height: calc(100vh - 97px);
+      min-height: 520px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .about-hero-bg {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .about-hero-panel { overflow: hidden; }
+    .about-hero-panel img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.38) grayscale(25%);
+      transform: scale(1.06);
+      transition: transform 10s ease;
+    }
+    .about-hero:hover .about-hero-panel img { transform: scale(1); }
+    .about-hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(105deg, rgba(0,0,0,0.5) 40%, transparent 60%);
+      pointer-events: none;
+    }
+    .about-hero::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0; bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, transparent, var(--accent), transparent);
+      opacity: 0.4;
+      z-index: 5;
+      transform: translateX(-50%);
+    }
+    .about-hero-content {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 20px;
+    }
+    .about-hero-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+    }
+    .about-hero-eyebrow::before,
+    .about-hero-eyebrow::after {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: var(--accent);
+      opacity: 0.6;
+    }
+    .about-hero-title {
+      font-family: 'Bebas Neue', cursive;
+      font-size: clamp(72px, 12vw, 160px);
+      line-height: 0.88;
+      letter-spacing: 6px;
+      color: var(--white);
+      text-transform: uppercase;
+      text-shadow: 0 0 80px rgba(157,255,33,0.12), 0 4px 60px rgba(0,0,0,0.8);
+      margin-bottom: 28px;
+    }
+    .about-hero-sub {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 40px;
+    }
+    .btn-hero-about {
+      display: inline-block;
+      border: 1px solid rgba(255,255,255,0.4);
+      color: var(--white);
+      background: transparent;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      padding: 14px 44px;
+      cursor: pointer;
+      transition: background 0.25s, color 0.25s, border-color 0.25s;
+      font-weight: 600;
+    }
+    .btn-hero-about:hover {
+      background: var(--accent);
+      color: var(--black);
+      border-color: var(--accent);
+    }
+    .scroll-indicator {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+    .scroll-indicator span {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 9px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.3);
+    }
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.2), transparent);
+      animation: scroll-pulse 2s ease-in-out infinite;
+    }
+    @keyframes scroll-pulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(0.7); }
+    }
+
+    /* origin, values, etc. (unchanged) */
+    .origin-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 600px;
+      border-top: 1px solid var(--border);
+    }
+    .origin-image { position: relative; overflow: hidden; }
+    .origin-image img {
+      width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%) brightness(0.8); transition: filter 0.6s, transform 0.9s;
+    }
+    .origin-section:hover .origin-image img { filter: grayscale(0%) brightness(0.9); transform: scale(1.04); }
+    .origin-image::after {
+      content: '01'; position: absolute; top: 24px; left: 24px; font-family: 'Bebas Neue', cursive; font-size: 13px; letter-spacing: 3px; color: var(--accent); opacity: 0.7;
+    }
+    .origin-text {
+      background: var(--dark); display: flex; flex-direction: column; justify-content: center; padding: 70px 80px; position: relative;
+    }
+    .origin-text::before {
+      content: 'ORIGIN'; position: absolute; top: 30px; right: 30px; font-family: 'Bebas Neue', cursive; font-size: 11px; letter-spacing: 5px; color: var(--border);
+    }
+    .origin-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 5px; text-transform: uppercase; color: var(--accent); margin-bottom: 18px;
+    }
+    .origin-text h2 {
+      font-family: 'Bebas Neue', cursive; font-size: clamp(38px, 4vw, 58px); letter-spacing: 4px; color: var(--white); line-height: 1; margin-bottom: 24px;
+    }
+    .origin-text p {
+      font-size: 14px; color: var(--grey); line-height: 2; max-width: 380px; margin-bottom: 16px;
+    }
+    .btn-outline-about {
+      display: inline-block; border: 1px solid var(--border); color: var(--off-white); font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; padding: 12px 32px; transition: border-color 0.2s, color 0.2s, background 0.2s; align-self: flex-start; width: fit-content;
+    }
+    .btn-outline-about:hover { border-color: var(--accent); color: var(--accent); background: rgba(157,255,33,0.05); }
+
+    .ticker {
+      background: var(--accent); padding: 14px 0; overflow: hidden; white-space: nowrap;
+    }
+    .ticker-track {
+      display: inline-flex; animation: ticker-scroll 25s linear infinite;
+    }
+    .ticker-item {
+      display: inline-flex; align-items: center; gap: 20px; margin-right: 60px; font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--black); font-weight: 700;
+    }
+    .ticker-item i { font-size: 6px; color: rgba(0,0,0,0.4); }
+    @keyframes ticker-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+    .quote-section {
+      padding: 120px 40px; text-align: center; background: var(--black); position: relative; overflow: hidden;
+    }
+    .quote-section::before {
+      content: ''; position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); opacity: 0.6; pointer-events: none;
+    }
+    .quote-section::after {
+      content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 600px; height: 300px; background: radial-gradient(ellipse, rgba(157,255,33,0.08) 0%, transparent 70%); pointer-events: none;
+    }
+    .quote-inner { position: relative; z-index: 2; max-width: 900px; margin: 0 auto; }
+    .quote-mark { font-family: 'Bebas Neue', cursive; font-size: 120px; line-height: 0.6; color: var(--accent); opacity: 0.15; margin-bottom: 16px; display: block; }
+    .quote-text { font-family: 'Bebas Neue', cursive; font-size: clamp(32px, 5.5vw, 72px); letter-spacing: 5px; line-height: 1.1; color: var(--white); text-shadow: 0 0 40px var(--accent-glow), 0 0 80px rgba(157,255,33,0.1); margin-bottom: 30px; }
+    .quote-text em { font-style: normal; color: var(--accent); text-shadow: 0 0 20px var(--accent), 0 0 60px var(--accent-glow); }
+    .quote-attribution { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 5px; text-transform: uppercase; color: var(--grey); }
+
+    .values-section {
+      padding: 100px 40px; background: var(--dark); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    }
+    .values-header { text-align: center; margin-bottom: 70px; }
+    .values-eyebrow { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 5px; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+    .values-header h2 { font-family: 'Bebas Neue', cursive; font-size: clamp(38px, 5vw, 60px); letter-spacing: 6px; color: var(--white); }
+    .values-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: var(--border); max-width: 1100px; margin: 0 auto; }
+    .value-card { background: var(--dark); padding: 56px 40px; text-align: center; position: relative; overflow: hidden; transition: background 0.3s; }
+    .value-card::before { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--accent); transform: scaleX(0); transition: transform 0.4s ease; transform-origin: left; }
+    .value-card:hover::before { transform: scaleX(1); }
+    .value-card:hover { background: #0d0d0d; }
+    .value-icon { width: 54px; height: 54px; border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 28px; font-size: 20px; color: var(--accent); transition: border-color 0.3s, box-shadow 0.3s; }
+    .value-card:hover .value-icon { border-color: var(--accent); box-shadow: 0 0 20px var(--accent-glow); }
+    .value-card h3 { font-family: 'Bebas Neue', cursive; font-size: 28px; letter-spacing: 5px; color: var(--white); margin-bottom: 16px; }
+    .value-card p { font-family: 'Barlow Condensed', sans-serif; font-size: 13px; letter-spacing: 1px; color: var(--grey); line-height: 1.9; }
+
+    .stats-section { padding: 80px 40px; background: var(--black); border-bottom: 1px solid var(--border); }
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); max-width: 1100px; margin: 0 auto; gap: 1px; background: var(--border); }
+    .stat-item { background: var(--black); padding: 40px 30px; text-align: center; position: relative; }
+    .stat-number { font-family: 'Bebas Neue', cursive; font-size: 60px; letter-spacing: 2px; color: var(--accent); line-height: 1; display: block; text-shadow: 0 0 30px var(--accent-glow); }
+    .stat-label { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 4px; text-transform: uppercase; color: var(--grey); margin-top: 8px; display: block; }
+
+    .vision-section {
+      display: grid; grid-template-columns: 1fr 1fr; min-height: 560px; border-bottom: 1px solid var(--border);
+    }
+    .vision-image { overflow: hidden; position: relative; }
+    .vision-image img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%) brightness(0.75); transition: filter 0.6s, transform 0.9s; }
+    .vision-section:hover .vision-image img { filter: grayscale(0%) brightness(0.85); transform: scale(1.04); }
+    .vision-image::after { content: '02'; position: absolute; top: 24px; right: 24px; font-family: 'Bebas Neue', cursive; font-size: 13px; letter-spacing: 3px; color: var(--accent); opacity: 0.7; }
+    .vision-text { background: var(--surface); display: flex; flex-direction: column; justify-content: center; padding: 70px 80px; position: relative; }
+    .vision-text::before { content: 'VISION'; position: absolute; top: 30px; left: 30px; font-family: 'Bebas Neue', cursive; font-size: 11px; letter-spacing: 5px; color: var(--border); }
+    .vision-eyebrow { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 5px; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; }
+    .vision-text h2 { font-family: 'Bebas Neue', cursive; font-size: clamp(36px, 4vw, 54px); letter-spacing: 4px; color: var(--white); line-height: 1; margin-bottom: 24px; }
+    .vision-text p { font-size: 14px; color: var(--grey); line-height: 2; max-width: 380px; margin-bottom: 16px; }
+
+    .cta-strip {
+      padding: 100px 40px; text-align: center; background: var(--dark); border-bottom: 1px solid var(--border); position: relative; overflow: hidden;
+    }
+    .cta-strip::before { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: linear-gradient(to right, transparent, var(--accent), transparent); opacity: 0.3; }
+    .cta-strip h2 { font-family: 'Bebas Neue', cursive; font-size: clamp(36px, 6vw, 72px); letter-spacing: 6px; color: var(--white); margin-bottom: 16px; }
+    .cta-strip p { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: var(--grey); margin-bottom: 40px; }
+    .btn-solid { display: inline-block; background: var(--white); color: var(--black); font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 4px; text-transform: uppercase; padding: 16px 52px; font-weight: 700; transition: background 0.2s, color 0.2s; }
+    .btn-solid:hover { background: var(--accent); color: var(--black); }
+
+    .newsletter {
+      background: var(--black); border-top: 1px solid var(--border); padding: 80px 40px; text-align: center;
+    }
+    .newsletter h3 { font-family: 'Bebas Neue', cursive; font-size: clamp(30px, 4vw, 48px); letter-spacing: 5px; color: var(--white); margin-bottom: 10px; }
+    .newsletter p { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: var(--grey); margin-bottom: 36px; }
+    .newsletter-form { display: flex; max-width: 460px; margin: 0 auto; border: 1px solid var(--border); }
+    .newsletter-form input { flex: 1; background: none; border: none; color: var(--white); font-family: 'Barlow Condensed', sans-serif; font-size: 13px; letter-spacing: 2px; padding: 14px 20px; outline: none; }
+    .newsletter-form input::placeholder { color: var(--grey); }
+    .newsletter-form button { background: var(--white); color: var(--black); border: none; font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; padding: 14px 24px; cursor: pointer; font-weight: 700; transition: background 0.2s; }
+    .newsletter-form button:hover { background: var(--accent); }
+
+    footer {
+      background: var(--black); border-top: 1px solid var(--border); padding: 60px 40px 30px;
+    }
+    .footer-grid {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1400px; margin: 0 auto 50px;
+    }
+    .footer-brand-image { display: block; width: 100%; max-width: 100%; height: auto; object-fit: contain; border-radius: 2px; }
+    .footer-col h4 { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--white); margin-bottom: 20px; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 10px; }
+    .footer-col ul li a { font-size: 13px; color: var(--grey); transition: color 0.2s; display: inline-block; }
+    .footer-col ul li a:hover { color: var(--accent); }
+    .footer-bottom { max-width: 1400px; margin: 0 auto; border-top: 1px solid var(--border); padding-top: 24px; display: flex; justify-content: space-between; align-items: center; }
+    .footer-bottom p { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--grey); }
+    .footer-socials { display: flex; gap: 18px; }
+    .footer-socials a { color: var(--grey); font-size: 14px; transition: color 0.2s; }
+    .footer-socials a:hover { color: var(--accent); }
+
+    #back-to-top {
+      position: fixed; bottom: 30px; right: 30px; background: var(--white); color: var(--black); border: none; width: 42px; height: 42px; cursor: pointer; z-index: 150; font-size: 14px; display: none; align-items: center; justify-content: center; transition: background 0.2s;
+    }
+    #back-to-top.visible { display: flex; }
+    #back-to-top:hover { background: var(--accent); }
+
+    .whatsapp-btn {
+      position: fixed; bottom: 82px; right: 30px; background: #25d366; color: var(--white); width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; z-index: 150; transition: background 0.2s, transform 0.2s; box-shadow: 0 4px 20px rgba(37,211,102,0.3);
+    }
+    .whatsapp-btn:hover { background: #128c5e; transform: scale(1.1); }
+
+    @media (max-width: 768px) {
+      .nav-inner { padding: 0 16px; height: 54px; grid-template-columns: auto 1fr auto; }
+      .nav-links { display: none; }
+      .mobile-menu-btn { display: flex; }
+      .nav-logo img { max-height: 38px; }
+      .nav-icons { gap: 14px; }
+      .about-hero { height: 90vw; min-height: 380px; }
+      .about-hero-bg { grid-template-columns: 1fr; }
+      .about-hero-bg > div:last-child { display: none; }
+      .origin-section, .vision-section { grid-template-columns: 1fr; }
+      .origin-image, .vision-image { height: 280px; }
+      .origin-text, .vision-text { padding: 40px 24px; }
+      .quote-section { padding: 70px 20px; }
+      .values-section { padding: 60px 20px; }
+      .values-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .footer-grid { grid-template-columns: 1fr; text-align: center; }
+      .footer-brand { display: flex; justify-content: center; padding: 0 20px 32px; border-bottom: 1px solid var(--border); }
+      .footer-col { display: flex; flex-direction: column; align-items: center; padding: 28px 20px; border-bottom: 1px solid var(--border); }
+      .footer-col ul { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+      .footer-bottom { flex-direction: column; gap: 14px; }
+      #cart-drawer { width: 100vw; }
+    }
+    @media (max-width: 480px) {
+      .about-hero { height: 100vw; }
+      .stat-number { font-size: 48px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── ANNOUNCEMENT BAR ── -->
+  <div class="announcement-bar">LIMITED RELEASES. EXCLUSIVE DROPS. ELEGANCE IS NOW LIVE.</div>
+
+  <!-- ── NAVIGATION ── -->
+  <nav>
+    <div class="nav-inner">
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Catalog</a></li>
+        <li><a href="aboutus.html" class="active">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+
+      <a href="index.html" class="nav-logo">
+        <img src="image/headerlogo.jpg" alt="Trend In Law"/>
+      </a>
+
+      <div class="nav-icons">
+        <button id="search-icon-button"><i class="fas fa-search"></i></button>
+        <button id="login-modal-button"><i class="fas fa-user"></i></button>
+        <div style="position:relative;">
+          <button id="cart-icon"><i class="fas fa-shopping-bag"></i><span class="cart-badge cart-count">0</span></button>
+        </div>
+        <button class="mobile-menu-btn" id="mobile-menu-button"><i class="fas fa-bars"></i></button>
+      </div>
+    </div>
+
+    <div id="search-input-container">
+      <input type="text" id="search-input" placeholder="SEARCH PRODUCTS..."/>
+    </div>
+  </nav>
+
+  <!-- ── MOBILE MENU OVERLAY ── -->
+  <div id="mobile-menu-overlay"></div>
+
+  <!-- ── MOBILE MENU ── -->
+  <div id="mobile-menu">
+    <button id="close-mobile-menu"><i class="fas fa-times"></i></button>
+    <a href="index.html">Home</a>
+    <a href="shop.html">Catalog</a>
+    <a href="aboutus.html">About</a>
+    <a href="FAQs.html">FAQ's</a>
+    <a href="fastdelivery.html">Fast Delivery</a>
+    <a href="contact.html">Contact</a>
+    <a href="track.html">Track Order</a>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       CART DRAWER (ADDED)
+  ══════════════════════════════════════════ -->
+  <div id="cart-overlay"></div>
+  <div id="cart-drawer">
+    <div class="cart-drawer-header">
+      <div class="cart-header-left">
+        <h2>Your Cart</h2>
+        <span class="cart-count-label">(<span id="drawer-item-count">0</span> items)</span>
+      </div>
+      <button id="close-cart-drawer"><i class="fas fa-times"></i></button>
+    </div>
+    <div id="cart-items-list">
+      <!-- filled by JS -->
+    </div>
+    <div class="cart-drawer-footer">
+      <div class="cart-subtotal-row">
+        <span class="label">Subtotal</span>
+        <span class="amount" id="cart-subtotal">RS 0</span>
+      </div>
+      <p class="cart-subtotal-note">Shipping &amp; taxes calculated at checkout</p>
+      <a href="order.html" class="btn-checkout" id="btn-proceed-checkout">Proceed to Pay</a>
+      <button class="btn-continue-shopping" id="btn-continue-shopping">Continue Shopping</button>
+    </div>
+  </div>
+
+  <!-- ── CART NOTIFICATION (ADDED) ── -->
+  <div id="cart-notification">Item added to cart</div>
+
+  <!-- ══════════════════════════════════════════
+       AUTH MODALS (ADDED)
+  ══════════════════════════════════════════ -->
+  <!-- ══════════════════════════════════════════
+       LOGIN MODAL — IDs wired to API.auth.login
+  ══════════════════════════════════════════ -->
+  <div id="login-modal" role="dialog" aria-modal="true" aria-labelledby="login-modal-title">
+    <div class="auth-box">
+      <button class="modal-close" id="close-login-modal" aria-label="Close login modal">
+        <i class="fas fa-times"></i>
+      </button>
+      <h2 id="login-modal-title">Sign In</h2>
+
+      <!-- Feedback banner (hidden by default) -->
+      <div id="login-feedback" style="
+        display:none;
+        margin-bottom:14px;
+        padding:10px 14px;
+        font-family:'Barlow Condensed',sans-serif;
+        font-size:12px;
+        letter-spacing:1px;
+        border-left:3px solid var(--accent);
+        background:rgba(157,255,33,0.07);
+        color:var(--off-white);
+      "></div>
+
+      <label for="login-email" style="
+        font-family:'Barlow Condensed',sans-serif;
+        font-size:10px;letter-spacing:3px;
+        text-transform:uppercase;color:var(--grey);
+        display:block;margin-bottom:6px;">Email Address</label>
+      <input
+        type="email"
+        id="login-email"
+        name="email"
+        placeholder="you@example.com"
+        autocomplete="email"
+        required
+      />
+
+      <label for="login-password" style="
+        font-family:'Barlow Condensed',sans-serif;
+        font-size:10px;letter-spacing:3px;
+        text-transform:uppercase;color:var(--grey);
+        display:block;margin-bottom:6px;">Password</label>
+      <input
+        type="password"
+        id="login-password"
+        name="password"
+        placeholder="Your password"
+        autocomplete="current-password"
+        required
+      />
+
+      <button type="submit" id="login-submit-btn">Continue</button>
+
+      <p>Don't have an account? <a href="#" id="show-register">Register</a></p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       REGISTER MODAL — IDs wired to API.auth.register
+  ══════════════════════════════════════════ -->
+  <div id="register-modal" role="dialog" aria-modal="true" aria-labelledby="register-modal-title">
+    <div class="auth-box">
+      <button class="modal-close" id="close-register-modal" aria-label="Close register modal">
+        <i class="fas fa-times"></i>
+      </button>
+      <h2 id="register-modal-title">Register</h2>
+
+      <!-- Feedback banner (hidden by default) -->
+      <div id="register-feedback" style="
+        display:none;
+        margin-bottom:14px;
+        padding:10px 14px;
+        font-family:'Barlow Condensed',sans-serif;
+        font-size:12px;
+        letter-spacing:1px;
+        border-left:3px solid var(--accent);
+        background:rgba(157,255,33,0.07);
+        color:var(--off-white);
+      "></div>
+
+      <label for="register-firstname" style="
+        font-family:'Barlow Condensed',sans-serif;
+        font-size:10px;letter-spacing:3px;
+        text-transform:uppercase;color:var(--grey);
+        display:block;margin-bottom:6px;">First Name</label>
+      <input
+        type="text"
+        id="register-firstname"
+        name="firstName"
+        placeholder="Muhammad"
+        autocomplete="given-name"
+        required
+      />
+
+      <label for="register-lastname" style="
+        font-family:'Barlow Condensed',sans-serif;
+        font-size:10px;letter-spacing:3px;
+        text-transform:uppercase;color:var(--grey);
+        display:block;margin-bottom:6px;">Last Name</label>
+      <input
+        type="text"
+        id="register-lastname"
+        name="lastName"
+        placeholder="Ali"
+        autocomplete="family-name"
+        required
+      />
+
+      <label for="register-email" style="
+        font-family:'Barlow Condensed',sans-serif;
+        font-size:10px;letter-spacing:3px;
+        text-transform:uppercase;color:var(--grey);
+        display:block;margin-bottom:6px;">Email Address</label>
+      <input
+        type="email"
+        id="register-email"
+        name="email"
+        placeholder="you@example.com"
+        autocomplete="email"
+        required
+      />
+
+      <label for="register-password" style="
+        font-family:'Barlow Condensed',sans-serif;
+        font-size:10px;letter-spacing:3px;
+        text-transform:uppercase;color:var(--grey);
+        display:block;margin-bottom:6px;">Password</label>
+      <input
+        type="password"
+        id="register-password"
+        name="password"
+        placeholder="Choose a password"
+        autocomplete="new-password"
+        required
+      />
+
+      <button type="submit" id="register-submit-btn">Create Account</button>
+
+      <p>Already have an account? <a href="#" id="show-login">Sign In</a></p>
+    </div>
+  </div>
+
+  <!-- ── PRODUCT MODAL (for add-to-cart compatibility) ── -->
+  <div id="product-modal">
+    <div class="modal-box">
+      <button class="modal-close" id="close-product-modal"><i class="fas fa-times"></i></button>
+      <div class="modal-title" id="modal-product-name">Product Name</div>
+      <div class="modal-price" id="modal-product-price">RS 0</div>
+      <div class="modal-label">Color</div>
+      <div class="modal-options" id="color-options"></div>
+      <div class="modal-label">Size</div>
+      <div class="modal-options" id="size-options"></div>
+      <div class="modal-label">Quantity</div>
+      <div class="modal-qty" style="display:flex; gap:10px; margin-bottom:20px;">
+        <button id="qty-minus">−</button><input type="number" id="modal-qty" value="1" min="1" style="width:50px; background:var(--surface); color:white; border:1px solid var(--border); text-align:center;"><button id="qty-plus">+</button>
+      </div>
+      <button class="btn-modal-add" id="modal-add-to-cart">Add to Cart</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       ABOUT PAGE CONTENT (your original)
+  ══════════════════════════════════════════ -->
+  <section class="about-hero">
+    <div class="about-hero-bg">
+      <div class="about-hero-panel">
+        <img src="image/aboutb2.jpg" alt="Brand Story Left" loading="eager"/>
+      </div>
+      <div class="about-hero-panel">
+        <img src="image/aboutb1.jpg" alt="Brand Story Right" loading="eager"/>
+      </div>
+    </div>
+    <div class="about-hero-content">
+      <p class="about-hero-eyebrow">Trend In Law</p>
+      <h1 class="about-hero-title">BEYOND<br>THE<br>FABRIC</h1>
+      <p class="about-hero-sub">Style &nbsp;·&nbsp; Vibe &nbsp;·&nbsp; Reflect</p>
+      <a href="#our-story" class="btn-hero-about">Our Story</a>
+    </div>
+    <div class="scroll-indicator">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <section class="origin-section" id="our-story">
+    <div class="origin-image fade-in">
+      <img src="image/about1.jpg" alt="Brand Origin"/>
+    </div>
+    <div class="origin-text fade-in fade-in-delay-1">
+      <p class="origin-eyebrow">Where it began</p>
+      <h2>OUR<br>STORY</h2>
+      <p>Trend In Law was born from a refusal to settle. Founded in the streets of Haryana, we set out to create clothing that didn't just follow the current — it redefined it. Every stitch carries intention; every drop is a declaration.</p>
+      <p>We believe fashion is more than fabric. It's the language of your identity, a silent signal to the world that says: <em style="font-style:normal;color:var(--off-white);">I know exactly who I am.</em> That belief is woven into every piece we create.</p>
+      <a href="shop.html" class="btn-outline-about">Explore the Collection</a>
+    </div>
+  </section>
+
+  <div class="ticker">
+    <div class="ticker-track">
+      <span class="ticker-item"><i class="fas fa-circle"></i> Designed to Disrupt</span>
+      <span class="ticker-item"><i class="fas fa-circle"></i> Tailored for Rebels</span>
+      <span class="ticker-item"><i class="fas fa-circle"></i> Born in India</span>
+      <span class="ticker-item"><i class="fas fa-circle"></i> Style. Vibe. Reflect.</span>
+      <span class="ticker-item"><i class="fas fa-circle"></i> Limited Drops Only</span>
+      <span class="ticker-item"><i class="fas fa-circle"></i> Wear Your Truth</span>
+      <!-- duplicate for seamless loop -->
+      <span class="ticker-item"><i class="fas fa-circle"></i> Designed to Disrupt</span>
+      <span class="ticker-item"><i class="fas fa-circle"></i> Tailored for Rebels</span>
+      <span class="ticker-item"><i class="fas fa-circle"></i> Born in India</span>
+    </div>
+  </div>
+
+  <section class="quote-section">
+    <div class="quote-inner fade-in">
+      <span class="quote-mark">"</span>
+      <h2 class="quote-text">DESIGNED TO <em>DISRUPT.</em><br>TAILORED FOR THE<br>MODERN <em>REBEL.</em></h2>
+      <p class="quote-attribution">— The Trend In Law Manifesto</p>
+    </div>
+  </section>
+
+  <section class="values-section">
+    <div class="values-header fade-in">
+      <p class="values-eyebrow">What drives us</p>
+      <h2>OUR VALUES</h2>
+    </div>
+    <div class="values-grid">
+      <div class="value-card fade-in">
+        <div class="value-icon"><i class="fas fa-gem"></i></div>
+        <h3>Quality</h3>
+        <p>Every piece is precision-crafted with materials chosen for longevity. We don't mass-produce — we curate. No shortcuts. No compromises. Only garments that earn their place in your rotation for years.</p>
+      </div>
+      <div class="value-card fade-in fade-in-delay-1">
+        <div class="value-icon"><i class="fas fa-bolt"></i></div>
+        <h3>Innovation</h3>
+        <p>We study culture, anticipate the next wave, and translate that energy into wearable art before it becomes mainstream. Trend In Law doesn't follow trends — it architects them.</p>
+      </div>
+      <div class="value-card fade-in fade-in-delay-2">
+        <div class="value-icon"><i class="fas fa-users"></i></div>
+        <h3>Community</h3>
+        <p>Our brand is built with the people who wear it. Rebels, creators, disruptors — you are the identity behind every drop. We listen, collaborate, and grow as one unified movement.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats-section">
+    <div class="stats-grid">
+      <div class="stat-item fade-in"><span class="stat-number">5K+</span><span class="stat-label">Orders Fulfilled</span></div>
+      <div class="stat-item fade-in fade-in-delay-1"><span class="stat-number">100%</span><span class="stat-label">Local Craft</span></div>
+      <div class="stat-item fade-in fade-in-delay-2"><span class="stat-number">30+</span><span class="stat-label">Exclusive Drops</span></div>
+      <div class="stat-item fade-in fade-in-delay-3"><span class="stat-number">1</span><span class="stat-label">Unapologetic Vision</span></div>
+    </div>
+  </section>
+
+  <section class="vision-section">
+    <div class="vision-text fade-in">
+      <p class="vision-eyebrow">Looking forward</p>
+      <h2>THE<br>NEXT<br>CHAPTER</h2>
+      <p>We're expanding — new silhouettes, new collaborations, new frontiers. But the core stays the same: fearless design made for those who refuse to blend in.</p>
+      <p>From India to the world, Trend In Law is more than a brand. It's a movement. And it's only just beginning.</p>
+      <a href="shop.html" class="btn-outline-about">Shop New Arrivals</a>
+    </div>
+    <div class="vision-image fade-in fade-in-delay-1">
+      <img src="image/about2.jpg" alt="Brand Vision"/>
+    </div>
+  </section>
+
+  <section class="cta-strip fade-in">
+    <h2>JOIN THE MOVEMENT</h2>
+    <p>New drops. Exclusive releases. Only for those who deserve them.</p>
+    <a href="shop.html" class="btn-solid">Shop Now</a>
+  </section>
+
+  <div class="newsletter fade-in">
+    <h3>Stay in the Loop</h3>
+    <p>First access to drops, exclusive offers, and unreleased previews.</p>
+    <div class="newsletter-form">
+      <input type="email" id="newsletterEmail" placeholder="Your email address"/>
+      <button type="submit" id="newsletterSubmit">Subscribe</button>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="image/footer2.jpg" alt="Trend In Law" class="footer-brand-image"/>
+      </div>
+      <div class="footer-col">
+        <h4>Navigate</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="shop.html">Catalog</a></li>
+          <li><a href="aboutus.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="FAQs.html">FAQ's</a></li>
+          <li><a href="fastdelivery.html">Fast Delivery</a></li>
+          <li><a href="track.html">Track Your Order</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">WhatsApp</a></li>
+          <li><a href="#">TikTok</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Trend In Law. All rights reserved.</p>
+      <div class="footer-socials">
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-whatsapp"></i></a>
+        <a href="#"><i class="fab fa-tiktok"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ── FIXED BUTTONS ── -->
+  <a href="https://wa.me/923001234567" target="_blank" class="whatsapp-btn" aria-label="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+  <button id="back-to-top" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+
+  <!-- ══════════════════════════════════════════════════════════
+       JAVASCRIPT — api.js must be loaded BEFORE this block.
+       Handles: cart drawer · API.auth.login · API.auth.register
+                API newsletter subscribe · mobile menu · search
+                scroll fade-in · back-to-top · UI state sync
+  ══════════════════════════════════════════════════════════ -->
+  <script>
+  (function () {
+    'use strict';
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTION 1 — CART (localStorage, no API needed)
+    ═══════════════════════════════════════════════════════════ */
+    const CART_KEY = 'til_cart';
+
+    function getCart()    { return JSON.parse(localStorage.getItem(CART_KEY) || '[]'); }
+    function saveCart(c)  { localStorage.setItem(CART_KEY, JSON.stringify(c)); }
+
+    function updateCartCount() {
+      const total = getCart().reduce((s, i) => s + i.quantity, 0);
+      document.querySelectorAll('.cart-count').forEach(el => el.textContent = total);
+      const label = document.getElementById('drawer-item-count');
+      if (label) label.textContent = total;
+    }
+
+    function showToast(msg, isError = false) {
+      const n = document.getElementById('cart-notification');
+      if (!n) return;
+      n.textContent = msg;
+      n.style.borderLeftColor = isError ? '#ff4455' : 'var(--accent)';
+      n.classList.add('show');
+      clearTimeout(n._timer);
+      n._timer = setTimeout(() => n.classList.remove('show'), 3500);
+    }
+
+    function renderCartDrawer() {
+      const list     = document.getElementById('cart-items-list');
+      const subtotal = document.getElementById('cart-subtotal');
+      if (!list) return;
+
+      const cart = getCart();
+      list.innerHTML = '';
+
+      if (cart.length === 0) {
+        list.innerHTML = `
+          <div class="cart-empty">
+            <i class="fas fa-shopping-bag"></i>
+            <span>Your cart is empty</span>
+            <span style="font-size:11px;color:var(--border)">Add items to get started</span>
+          </div>`;
+        if (subtotal) subtotal.textContent = 'RS 0';
+        return;
+      }
+
+      let total = 0;
+      cart.forEach(item => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
+        const row = document.createElement('div');
+        row.className = 'cart-item-row';
+        row.innerHTML = `
+          <img class="cart-item-img" src="${item.image}" alt="${item.name}"
+               onerror="this.src='image/placeholder.jpg'"/>
+          <div class="cart-item-details">
+            <div class="cart-item-name">${item.name}</div>
+            <div class="cart-item-meta">${[item.size, item.color].filter(Boolean).join(' · ')}</div>
+            <div class="cart-item-qty">
+              <button class="qty-btn-minus"
+                data-id="${item.id}" data-color="${item.color}" data-size="${item.size}">−</button>
+              <span class="qty-num">${item.quantity}</span>
+              <button class="qty-btn-plus"
+                data-id="${item.id}" data-color="${item.color}" data-size="${item.size}">+</button>
+            </div>
+          </div>
+          <div class="cart-item-right">
+            <span class="cart-item-price">RS ${itemTotal.toLocaleString()}</span>
+            <button class="cart-remove-btn"
+              data-id="${item.id}" data-color="${item.color}" data-size="${item.size}">
+              <i class="fas fa-trash-alt"></i> Remove
+            </button>
+          </div>`;
+        list.appendChild(row);
+      });
+
+      if (subtotal) subtotal.textContent = `RS ${total.toLocaleString()}`;
+
+      list.querySelectorAll('.qty-btn-minus').forEach(b =>
+        b.addEventListener('click', () =>
+          updateCartQty(b.dataset.id, b.dataset.color, b.dataset.size, -1)));
+      list.querySelectorAll('.qty-btn-plus').forEach(b =>
+        b.addEventListener('click', () =>
+          updateCartQty(b.dataset.id, b.dataset.color, b.dataset.size, +1)));
+      list.querySelectorAll('.cart-remove-btn').forEach(b =>
+        b.addEventListener('click', () =>
+          removeFromCart(b.dataset.id, b.dataset.color, b.dataset.size)));
+    }
+
+    function removeFromCart(id, color, size) {
+      saveCart(getCart().filter(i => !(i.id === id && i.color === color && i.size === size)));
+      updateCartCount();
+      renderCartDrawer();
+      showToast('Item removed from cart');
+    }
+
+    function updateCartQty(id, color, size, delta) {
+      const cart = getCart();
+      const idx  = cart.findIndex(i => i.id === id && i.color === color && i.size === size);
+      if (idx === -1) return;
+      cart[idx].quantity = Math.max(1, cart[idx].quantity + delta);
+      saveCart(cart);
+      updateCartCount();
+      renderCartDrawer();
+    }
+
+    function openCartDrawer() {
+      renderCartDrawer();
+      document.getElementById('cart-drawer')?.classList.add('open');
+      document.getElementById('cart-overlay')?.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeCartDrawer() {
+      document.getElementById('cart-drawer')?.classList.remove('open');
+      document.getElementById('cart-overlay')?.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('cart-icon')?.addEventListener('click', openCartDrawer);
+    document.getElementById('close-cart-drawer')?.addEventListener('click', closeCartDrawer);
+    document.getElementById('cart-overlay')?.addEventListener('click', closeCartDrawer);
+    document.getElementById('btn-continue-shopping')?.addEventListener('click', closeCartDrawer);
+    document.getElementById('btn-proceed-checkout')?.addEventListener('click', () => {
+      if (getCart().length === 0) { showToast('Your cart is empty!', true); return; }
+      window.location.href = 'order.html';
+    });
+
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTION 2 — MODAL HELPERS
+    ═══════════════════════════════════════════════════════════ */
+    function openModal(el)  { el?.classList.add('open');    document.body.style.overflow = 'hidden'; }
+    function closeModal(el) { el?.classList.remove('open'); document.body.style.overflow = '';       }
+
+    /** Show an inline feedback message inside a modal */
+    function setModalFeedback(feedbackId, message, isError = false) {
+      const el = document.getElementById(feedbackId);
+      if (!el) return;
+      el.textContent = message;
+      el.style.display   = message ? 'block'   : 'none';
+      el.style.borderLeftColor   = isError ? '#ff4455' : 'var(--accent)';
+      el.style.background        = isError ? 'rgba(255,68,85,0.07)' : 'rgba(157,255,33,0.07)';
+    }
+
+    /** Set a button into a loading / ready state */
+    function setButtonLoading(btnId, isLoading, defaultText) {
+      const btn = document.getElementById(btnId);
+      if (!btn) return;
+      btn.disabled    = isLoading;
+      btn.textContent = isLoading ? 'Please wait...' : defaultText;
+      btn.style.opacity = isLoading ? '0.65' : '1';
+    }
+
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTION 3 — UI STATE: reflect logged-in / logged-out user
+    ═══════════════════════════════════════════════════════════ */
+    /**
+     * After a successful login or register, update the nav icon
+     * to show the user's name / a logout option instead of "Sign In".
+     */
+    function syncAuthUI() {
+      const loginBtn = document.getElementById('login-modal-button');
+      if (!loginBtn) return;
+
+      if (window.API && window.API.auth.isLoggedIn()) {
+        // Try to get the stored user name (set by us on login)
+        const name = localStorage.getItem('til_user_name') || '';
+        loginBtn.innerHTML = `<i class="fas fa-user-check"></i>`;
+        loginBtn.title = name ? `Signed in as ${name}` : 'Signed in';
+
+        // Replace click handler: clicking now logs out
+        loginBtn.replaceWith(loginBtn.cloneNode(true)); // remove old listeners
+        const freshBtn = document.getElementById('login-modal-button');
+        freshBtn?.addEventListener('click', async () => {
+          if (!confirm('Sign out of your account?')) return;
+          await window.API.auth.logout();
+          localStorage.removeItem('til_user_name');
+          showToast('You have been signed out.');
+          syncAuthUI();
+        });
+      } else {
+        loginBtn.innerHTML = `<i class="fas fa-user"></i>`;
+        loginBtn.title = 'Sign in';
+        loginBtn.replaceWith(loginBtn.cloneNode(true));
+        document.getElementById('login-modal-button')
+          ?.addEventListener('click', () => openModal(loginModal));
+      }
+    }
+
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTION 4 — LOGIN MODAL  →  API.auth.login
+    ═══════════════════════════════════════════════════════════ */
+    const loginModal    = document.getElementById('login-modal');
+    const registerModal = document.getElementById('register-modal');
+
+    // Open / close wiring
+    document.getElementById('login-modal-button')?.addEventListener('click', () => openModal(loginModal));
+    document.getElementById('close-login-modal')?.addEventListener('click',  () => closeModal(loginModal));
+    loginModal?.addEventListener('click', e => { if (e.target === loginModal) closeModal(loginModal); });
+
+    // Switch to register
+    document.getElementById('show-register')?.addEventListener('click', e => {
+      e.preventDefault();
+      setModalFeedback('login-feedback', ''); // clear any previous errors
+      closeModal(loginModal);
+      openModal(registerModal);
+    });
+
+    // ── LOGIN SUBMIT ──────────────────────────────────────────
+    document.getElementById('login-submit-btn')?.addEventListener('click', async () => {
+      const email    = document.getElementById('login-email')?.value.trim();
+      const password = document.getElementById('login-password')?.value;
+
+      // Basic client-side validation
+      if (!email || !password) {
+        setModalFeedback('login-feedback', 'Please enter your email and password.', true);
+        return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        setModalFeedback('login-feedback', 'Please enter a valid email address.', true);
+        return;
+      }
+
+      setButtonLoading('login-submit-btn', true, 'Continue');
+      setModalFeedback('login-feedback', ''); // clear previous message
+
+      try {
+        /*
+         * API.auth.login({ email, password })
+         * → POST /api/auth/login
+         * → returns { token, user: { firstName, lastName, email, ... } }
+         * api.js automatically stores the JWT in localStorage ('til_auth_token')
+         */
+        const result = await window.API.auth.login({ email, password });
+
+        // Store display name for the nav icon
+        const name = result.user
+          ? `${result.user.firstName || ''} ${result.user.lastName || ''}`.trim()
+          : email;
+        localStorage.setItem('til_user_name', name);
+
+        setModalFeedback('login-feedback', `Welcome back, ${name || 'friend'}!`);
+
+        // Close modal after a short success flash, then sync the nav
+        setTimeout(() => {
+          closeModal(loginModal);
+          document.getElementById('login-email').value    = '';
+          document.getElementById('login-password').value = '';
+          setModalFeedback('login-feedback', '');
+          syncAuthUI();
+          showToast(`Signed in as ${name}`);
+        }, 900);
+
+      } catch (err) {
+        /*
+         * api.js throws an Error whose .message is the server's
+         * JSON { message: "..." } field, e.g. "Invalid credentials."
+         */
+        setModalFeedback('login-feedback', err.message || 'Login failed. Please try again.', true);
+      } finally {
+        setButtonLoading('login-submit-btn', false, 'Continue');
+      }
+    });
+
+    // Allow Enter key to submit the login form
+    ['login-email', 'login-password'].forEach(id => {
+      document.getElementById(id)?.addEventListener('keydown', e => {
+        if (e.key === 'Enter') document.getElementById('login-submit-btn')?.click();
+      });
+    });
+
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTION 5 — REGISTER MODAL  →  API.auth.register
+    ═══════════════════════════════════════════════════════════ */
+    document.getElementById('close-register-modal')?.addEventListener('click', () => closeModal(registerModal));
+    registerModal?.addEventListener('click', e => { if (e.target === registerModal) closeModal(registerModal); });
+
+    document.getElementById('show-login')?.addEventListener('click', e => {
+      e.preventDefault();
+      setModalFeedback('register-feedback', '');
+      closeModal(registerModal);
+      openModal(loginModal);
+    });
+
+    // ── REGISTER SUBMIT ───────────────────────────────────────
+    document.getElementById('register-submit-btn')?.addEventListener('click', async () => {
+      const firstName = document.getElementById('register-firstname')?.value.trim();
+      const lastName  = document.getElementById('register-lastname')?.value.trim();
+      const email     = document.getElementById('register-email')?.value.trim();
+      const password  = document.getElementById('register-password')?.value;
+
+      // Client-side validation
+      if (!firstName || !lastName) {
+        setModalFeedback('register-feedback', 'Please enter your first and last name.', true);
+        return;
+      }
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        setModalFeedback('register-feedback', 'Please enter a valid email address.', true);
+        return;
+      }
+      if (!password || password.length < 6) {
+        setModalFeedback('register-feedback', 'Password must be at least 6 characters.', true);
+        return;
+      }
+
+      setButtonLoading('register-submit-btn', true, 'Create Account');
+      setModalFeedback('register-feedback', '');
+
+      try {
+        /*
+         * API.auth.register({ firstName, lastName, email, password })
+         * → POST /api/auth/register
+         * → returns { token, user: { firstName, lastName, email, ... } }
+         * api.js automatically stores the JWT in localStorage ('til_auth_token')
+         */
+        const result = await window.API.auth.register({ firstName, lastName, email, password });
+
+        const name = result.user
+          ? `${result.user.firstName || ''} ${result.user.lastName || ''}`.trim()
+          : firstName;
+        localStorage.setItem('til_user_name', name);
+
+        setModalFeedback('register-feedback', `Account created! Welcome, ${name}.`);
+
+        setTimeout(() => {
+          closeModal(registerModal);
+          // clear form
+          ['register-firstname','register-lastname','register-email','register-password']
+            .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+          setModalFeedback('register-feedback', '');
+          syncAuthUI();
+          showToast(`Account created — welcome, ${name}!`);
+        }, 900);
+
+      } catch (err) {
+        setModalFeedback('register-feedback', err.message || 'Registration failed. Please try again.', true);
+      } finally {
+        setButtonLoading('register-submit-btn', false, 'Create Account');
+      }
+    });
+
+    // Allow Enter key to submit the register form
+    ['register-firstname','register-lastname','register-email','register-password'].forEach(id => {
+      document.getElementById(id)?.addEventListener('keydown', e => {
+        if (e.key === 'Enter') document.getElementById('register-submit-btn')?.click();
+      });
+    });
+
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTION 6 — NEWSLETTER  →  API (no dedicated endpoint in
+       api.js, so we log the action and show a confirmation toast)
+       NOTE: When your backend adds a newsletter route, replace
+       the body of this handler with:
+         await window.API.newsletter.subscribe(email)
+       or:
+         await window.API.contact.send({ name:'', email, subject:'Newsletter', message:'subscribe' })
+    ═══════════════════════════════════════════════════════════ */
+    document.getElementById('newsletterSubmit')?.addEventListener('click', async function (e) {
+      e.preventDefault();
+
+      const emailInput = document.getElementById('newsletterEmail');
+      const email      = emailInput?.value.trim();
+      const btn        = document.getElementById('newsletterSubmit');
+
+      if (!email) {
+        showToast('Please enter your email address.', true);
+        emailInput?.focus();
+        return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showToast('Please enter a valid email address.', true);
+        emailInput?.focus();
+        return;
+      }
+
+      // Disable button while "submitting"
+      btn.disabled    = true;
+      btn.textContent = '...';
+
+      try {
+        /*
+         * ── OPTION A (current): no dedicated newsletter API endpoint.
+         *    We log the intent and show a friendly message.
+         *
+         * ── OPTION B (future): uncomment the line below once your
+         *    backend exposes POST /api/newsletter:
+         *
+         *    await window.API.newsletter.subscribe(email);
+         *
+         * ── OPTION C (workaround): route through contact endpoint:
+         *
+         *    await window.API.contact.send({
+         *      name: 'Newsletter Subscriber',
+         *      email,
+         *      subject: 'Newsletter Subscription',
+         *      message: 'User requested to subscribe to the newsletter.'
+         *    });
+         */
+        await window.API.newsletter.subscribe(email);
+
+        showToast(`You're subscribed! Welcome to the inner circle.`);
+        emailInput.value = '';
+
+      } catch (err) {
+        showToast(err.message || 'Subscription failed — please try again.', true);
+      } finally {
+        btn.disabled    = false;
+        btn.textContent = 'Subscribe';
+      }
+    });
+
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTION 7 — MOBILE MENU
+    ═══════════════════════════════════════════════════════════ */
+    const mobileMenu    = document.getElementById('mobile-menu');
+    const mobileOverlay = document.getElementById('mobile-menu-overlay');
+
+    function openMobileMenu() {
+      mobileMenu?.classList.add('open');
+      mobileOverlay?.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeMobileMenu() {
+      mobileMenu?.classList.remove('open');
+      mobileOverlay?.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('mobile-menu-button')?.addEventListener('click', openMobileMenu);
+    document.getElementById('close-mobile-menu')?.addEventListener('click', closeMobileMenu);
+    mobileOverlay?.addEventListener('click', closeMobileMenu);
+
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTION 8 — NAV SEARCH
+    ═══════════════════════════════════════════════════════════ */
+    document.getElementById('search-icon-button')?.addEventListener('click', () => {
+      const container = document.getElementById('search-input-container');
+      if (!container) return;
+      container.classList.toggle('active');
+      if (container.classList.contains('active')) {
+        document.getElementById('search-input')?.focus();
+      }
+    });
+
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTION 9 — SCROLL FADE-IN
+    ═══════════════════════════════════════════════════════════ */
+    const fadeObserver = new IntersectionObserver(
+      entries => entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      }),
+      { threshold: 0.12 }
+    );
+    document.querySelectorAll('.fade-in').forEach(el => fadeObserver.observe(el));
+
+
+    /* ═══════════════════════════════════════════════════════════
+       SECTION 10 — BACK TO TOP
+    ═══════════════════════════════════════════════════════════ */
+    const backBtn = document.getElementById('back-to-top');
+    window.addEventListener('scroll', () => {
+      backBtn?.classList.toggle('visible', window.scrollY > 400);
+    });
+    backBtn?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+
+    /* ═══════════════════════════════════════════════════════════
+       INIT
+    ═══════════════════════════════════════════════════════════ */
+    updateCartCount();
+    syncAuthUI();  // reflect login state on page load
+
+  })();
+  </script>
+</body>
+</html>

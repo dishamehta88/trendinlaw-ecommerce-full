@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>TREND IN LAW — FAQ</title>
+  <!-- same fonts as index -->
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;500;600;700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <link rel="icon" type="image/jpg" href="image/favicon.jpg">
+  <script src="api.js"></script>
+  <style>
+    /* ----- GLOBAL STYLES (exact from index) ----- */
+    :root {
+      --black: #000000;
+      --dark: #0a0a0a;
+      --mid: #111111;
+      --surface: #181818;
+      --border: #2a2a2a;
+      --white: #ffffff;
+      --off-white: #e8e8e8;
+      --grey: #888888;
+      --light-grey: #bbbbbb;
+      --accent: #9DFF21;
+      --accent-hover-text: #000000;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--black);
+      color: var(--white);
+      font-family: 'Barlow', sans-serif;
+      font-weight: 400;
+      overflow-x: hidden;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+
+    /* announcement bar */
+    .announcement-bar {
+      background: var(--accent);
+      border-bottom: none;
+      text-align: center;
+      padding: 10px 20px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--black);
+      font-weight: 700;
+    }
+
+    /* navigation (identical) */
+    nav {
+      background: var(--black);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-inner {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 0 40px;
+      height: 60px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--light-grey);
+      transition: color 0.2s;
+      font-weight: 500;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active { color: var(--accent); }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-logo img {
+      max-height: 50px;
+      width: auto;
+      display: block;
+      object-fit: contain;
+    }
+
+    .nav-icons {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav-icons button,
+    .nav-icons a {
+      background: none;
+      border: none;
+      color: var(--light-grey);
+      font-size: 15px;
+      cursor: pointer;
+      transition: color 0.2s;
+      position: relative;
+    }
+
+    .nav-icons button:hover,
+    .nav-icons a:hover { color: var(--accent); }
+
+    .cart-badge {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: var(--white);
+      color: var(--black);
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      font-size: 9px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mobile-menu-btn { display: none; }
+
+    /* search bar */
+    #search-input-container {
+      background: var(--dark);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 40px;
+      display: none;
+    }
+    #search-input-container.active { display: block; }
+    #search-input {
+      width: 100%;
+      background: none;
+      border: none;
+      border-bottom: 1px solid var(--border);
+      color: var(--white);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 14px;
+      letter-spacing: 2px;
+      padding: 8px 0;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    #search-input:focus { border-bottom-color: var(--accent); }
+    #search-input::placeholder { color: var(--grey); }
+
+    /* mobile menu */
+    #mobile-menu {
+      position: fixed;
+      top: 0; right: 0;
+      width: 280px; height: 100%;
+      background: var(--dark);
+      border-left: 1px solid var(--border);
+      z-index: 200;
+      transform: translateX(100%);
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      padding: 80px 32px 32px;
+    }
+    #mobile-menu.open { transform: translateX(0); }
+    #mobile-menu a {
+      display: block;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 20px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--light-grey);
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.2s;
+    }
+    #mobile-menu a:hover { color: var(--accent); }
+    #close-mobile-menu {
+      position: absolute;
+      top: 20px; right: 20px;
+      background: none; border: none;
+      color: var(--grey);
+      font-size: 20px;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    #close-mobile-menu:hover { color: var(--accent); }
+    #mobile-menu-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      z-index: 199;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.35s, visibility 0.35s;
+    }
+    #mobile-menu-overlay.open { opacity: 1; visibility: visible; }
+
+    /* footer (exact) */
+    footer {
+      background: var(--black);
+      border-top: 1px solid var(--border);
+      padding: 60px 40px 30px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      max-width: 1400px;
+      margin: 0 auto 50px;
+    }
+
+    .footer-brand-image {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      object-fit: contain;
+      border-radius: 2px;
+    }
+
+    .footer-col h4 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 20px;
+    }
+
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 10px; }
+    .footer-col ul li a {
+      font-size: 13px;
+      color: var(--grey);
+      transition: color 0.2s;
+      display: inline-block;
+    }
+    .footer-col ul li a:hover { color: var(--accent); }
+
+    .footer-bottom {
+      max-width: 1400px;
+      margin: 0 auto;
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-bottom p {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--grey);
+    }
+    .footer-socials {
+      display: flex;
+      gap: 18px;
+    }
+    .footer-socials a {
+      color: var(--grey);
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+    .footer-socials a:hover { color: var(--accent); }
+
+    /* cart drawer (same) */
+    #cart-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.72);
+      z-index: 500;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.35s, visibility 0.35s;
+    }
+    #cart-overlay.open { opacity: 1; visibility: visible; }
+    #cart-drawer {
+      position: fixed;
+      top: 0; right: 0;
+      width: 420px;
+      max-width: 100vw;
+      height: 100%;
+      background: var(--dark);
+      border-left: 1px solid var(--border);
+      z-index: 501;
+      display: flex;
+      flex-direction: column;
+      transform: translateX(100%);
+      transition: transform 0.38s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #cart-drawer.open { transform: translateX(0); }
+    .cart-drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 28px;
+      border-bottom: 1px solid var(--border);
+    }
+    .cart-drawer-header h2 {
+      font-family: 'Bebas Neue', cursive; font-size: 22px; letter-spacing: 4px; color: var(--white);
+    }
+    .cart-drawer-header .cart-count-label {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 2px; color: var(--grey);
+    }
+    #close-cart-drawer { background: none; border: none; color: var(--grey); font-size: 18px; cursor: pointer; }
+    #close-cart-drawer:hover { color: var(--accent); }
+    #cart-items-list { flex:1; overflow-y: auto; }
+    .cart-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: var(--grey); font-family: 'Barlow Condensed', sans-serif; text-transform: uppercase; }
+    .cart-item-row { display: grid; grid-template-columns: 72px 1fr auto; gap:14px; padding:16px 28px; border-bottom:1px solid var(--border); }
+    .cart-item-img { width:72px; height:84px; object-fit:cover; background:var(--surface); }
+    .cart-item-name { font-family: 'Barlow Condensed', sans-serif; font-size:13px; text-transform:uppercase; color:var(--off-white); }
+    .cart-item-meta { font-size:11px; color:var(--grey); margin-bottom:6px; }
+    .cart-item-qty { display:flex; border:1px solid var(--border); width:fit-content; }
+    .cart-item-qty button { background:none; border:none; color:var(--grey); width:28px; height:28px; cursor:pointer; }
+    .cart-item-qty button:hover { color:var(--accent); }
+    .cart-item-qty .qty-num { font-family:'Barlow Condensed', sans-serif; font-size:13px; color:var(--white); width:28px; text-align:center; }
+    .cart-item-right { display:flex; flex-direction:column; align-items:flex-end; gap:10px; }
+    .cart-item-price { font-family:'Barlow Condensed', sans-serif; font-size:14px; color:var(--accent); }
+    .cart-remove-btn { background:none; border:none; color:var(--grey); font-size:12px; cursor:pointer; }
+    .cart-remove-btn:hover { color:#ff5555; }
+    .cart-drawer-footer { border-top:1px solid var(--border); padding:20px 28px 28px; background:var(--dark); }
+    .cart-subtotal-row { display:flex; justify-content:space-between; margin-bottom:4px; }
+    .cart-subtotal-row .amount { font-family:'Bebas Neue', cursive; font-size:28px; color:var(--white); }
+    .btn-checkout { display:block; width:100%; background:var(--accent); color:var(--black); font-family:'Barlow Condensed', sans-serif; font-size:13px; letter-spacing:5px; font-weight:700; padding:16px; text-align:center; border:none; cursor:pointer; }
+    .btn-checkout:hover { background:#b8ff00; }
+    .btn-continue-shopping { display:block; width:100%; background:transparent; color:var(--grey); border:1px solid var(--border); font-family:'Barlow Condensed', sans-serif; font-size:11px; letter-spacing:4px; padding:12px; margin-top:10px; cursor:pointer; }
+
+    /* notifications, back to top, whatsapp */
+    #cart-notification {
+      position: fixed; bottom:30px; right:30px; background:var(--dark); border:1px solid var(--border); border-left:3px solid var(--accent); color:var(--white); font-family:'Barlow Condensed', sans-serif; font-size:13px; letter-spacing:2px; padding:16px 24px; z-index:400; transform:translateY(80px); opacity:0; transition:0.3s;
+    }
+    #cart-notification.show { transform:translateY(0); opacity:1; }
+    #back-to-top {
+      position: fixed; bottom:30px; right:30px; background:var(--white); color:var(--black); border:none; width:42px; height:42px; cursor:pointer; z-index:150; font-size:14px; display:none; align-items:center; justify-content:center; transition:background 0.2s;
+    }
+    #back-to-top.visible { display:flex; }
+    #back-to-top:hover { background:var(--accent); }
+    .whatsapp-btn {
+      position: fixed; bottom:82px; right:30px; background:#25d366; color:var(--white); width:48px; height:48px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:22px; z-index:150; transition:0.2s; box-shadow:0 4px 20px rgba(37,211,102,0.3);
+    }
+    .whatsapp-btn:hover { background:#1eb655; transform:scale(1.1); }
+
+    /* auth modals */
+    #login-modal, #register-modal {
+      position: fixed; inset:0; background:rgba(0,0,0,0.85); z-index:300; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.3s;
+    }
+    #login-modal.open, #register-modal.open { opacity:1; pointer-events:all; }
+    .auth-box {
+      background:var(--dark); border:1px solid var(--border); width:90%; max-width:400px; padding:40px; position:relative;
+    }
+    .auth-box h2 { font-family:'Bebas Neue', cursive; font-size:32px; letter-spacing:4px; color:var(--white); margin-bottom:28px; }
+    .auth-box input { width:100%; background:var(--surface); border:1px solid var(--border); color:var(--white); font-family:'Barlow', sans-serif; font-size:13px; padding:12px 16px; margin-bottom:14px; outline:none; }
+    .auth-box input:focus { border-color:var(--accent); }
+    .auth-box button[type="submit"] { width:100%; background:var(--white); color:var(--black); border:none; font-family:'Barlow Condensed', sans-serif; font-size:12px; letter-spacing:4px; font-weight:700; padding:14px; cursor:pointer; margin-top:8px; }
+    .auth-box button[type="submit"]:hover { background:var(--accent); }
+    .auth-box p a { color:var(--off-white); border-bottom:1px solid var(--border); transition:0.2s; }
+    .auth-box p a:hover { color:var(--accent); border-color:var(--accent); }
+    .auth-box .modal-close { position:absolute; top:14px; right:18px; background:none; border:none; color:var(--grey); font-size:18px; cursor:pointer; }
+
+    /* product modal stub */
+    #product-modal {
+      position: fixed; inset:0; background:rgba(0,0,0,0.85); z-index:300; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:0.3s;
+    }
+    #product-modal.open { opacity:1; pointer-events:all; }
+    .modal-box { background:var(--dark); border:1px solid var(--border); max-width:480px; width:90%; padding:40px; position:relative; }
+
+    /* ---------- FAQ PAGE SPECIFIC STYLES ---------- */
+    .faq-hero {
+      height: 35vh;
+      min-height: 250px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: var(--black);
+      border-bottom: 1px solid var(--border);
+    }
+    .faq-hero h1 {
+      font-family: 'Bebas Neue', cursive;
+      font-size: clamp(48px, 10vw, 110px);
+      letter-spacing: 8px;
+      color: var(--white);
+      text-transform: uppercase;
+      line-height: 1;
+      text-shadow: 0 4px 30px rgba(0,0,0,0.6);
+    }
+    .faq-hero h1 span {
+      color: var(--accent);
+    }
+
+    .faq-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 60px 30px 30px;
+    }
+
+    /* category labels */
+    .category-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 22px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 40px 0 20px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+    }
+
+    /* accordion cards */
+    .faq-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      margin-bottom: 16px;
+      transition: border 0.2s;
+    }
+    .faq-card:hover {
+      border-color: var(--accent);
+    }
+
+    .faq-question {
+      padding: 22px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+    }
+    .faq-question h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 18px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--off-white);
+      font-weight: 500;
+    }
+    .faq-question i {
+      font-size: 20px;
+      color: var(--accent);
+      transition: transform 0.3s ease;
+    }
+    .faq-card.active .faq-question i {
+      transform: rotate(45deg); /* plus to x style */
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      background: var(--dark);
+      border-top: 1px solid transparent;
+    }
+    .faq-card.active .faq-answer {
+      max-height: 300px; /* enough for answers */
+      border-top-color: var(--border);
+    }
+    .faq-answer p {
+      padding: 0 25px 25px 25px;
+      color: var(--grey);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    /* still need help section */
+    .help-section {
+      margin: 80px 0 40px;
+      padding: 50px 30px;
+      background: var(--dark);
+      border: 1px solid var(--border);
+      text-align: center;
+    }
+    .help-section h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 28px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 15px;
+    }
+    .help-section p {
+      font-size: 16px;
+      color: var(--grey);
+      margin-bottom: 30px;
+    }
+    .btn-neon {
+      display: inline-block;
+      background: transparent;
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 16px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      padding: 16px 48px;
+      font-weight: 600;
+      transition: background 0.25s, color 0.25s;
+      cursor: pointer;
+    }
+    .btn-neon:hover {
+      background: var(--accent);
+      color: var(--black);
+    }
+
+    /* responsive */
+    @media (max-width: 768px) {
+      .nav-inner { padding: 0 16px; height: 54px; grid-template-columns: auto 1fr auto; }
+      .nav-links { display: none; }
+      .mobile-menu-btn { display: flex; }
+      .nav-logo img { max-height: 38px; }
+
+      .footer-grid { grid-template-columns: 1fr; text-align: center; }
+      .footer-brand { display: flex; justify-content: center; padding: 0 20px 32px; border-bottom: 1px solid var(--border); }
+      .footer-col { display: flex; flex-direction: column; align-items: center; padding: 28px 20px; border-bottom: 1px solid var(--border); }
+      .footer-col ul { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+      .footer-bottom { flex-direction: column; gap: 14px; }
+
+      .faq-container { padding: 40px 20px; }
+      .faq-question h3 { font-size: 16px; }
+      .faq-question { padding: 18px 20px; }
+    }
+    @media (max-width: 480px) {
+      #cart-drawer { width: 100vw; }
+      .faq-hero h1 { font-size: clamp(38px, 12vw, 70px); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- WhatsApp button -->
+  <a href="https://wa.me/?text=Assalamualaikum%2C%20mujhe%20ap%20se%20kuch%20poochna%20hai" target="_blank" class="whatsapp-btn">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <!-- Back to Top -->
+  <button id="back-to-top"><i class="fas fa-arrow-up"></i></button>
+
+  <!-- Cart Notification -->
+  <div id="cart-notification">Item added to cart</div>
+
+  <!-- Cart Overlay & Drawer -->
+  <div id="cart-overlay"></div>
+  <div id="cart-drawer">
+    <div class="cart-drawer-header">
+      <div class="cart-header-left">
+        <h2>Your Cart</h2>
+        <span class="cart-count-label">(<span id="drawer-item-count">0</span> items)</span>
+      </div>
+      <button id="close-cart-drawer"><i class="fas fa-times"></i></button>
+    </div>
+    <div id="cart-items-list"></div>
+    <div class="cart-drawer-footer">
+      <div class="cart-subtotal-row">
+        <span class="label">Subtotal</span>
+        <span class="amount" id="cart-subtotal">RS 0</span>
+      </div>
+      <p class="cart-subtotal-note">Shipping & taxes calculated at checkout</p>
+      <a href="order.html" class="btn-checkout" id="btn-proceed-checkout">Proceed to Pay</a>
+      <button class="btn-continue-shopping" id="btn-continue-shopping">Continue Shopping</button>
+    </div>
+  </div>
+
+  <!-- Announcement Bar -->
+  <div class="announcement-bar">LIMITED RELEASES. EXCLUSIVE DROPS. ELEGANCE IS NOW LIVE.</div>
+
+  <!-- NAVIGATION (exact) -->
+  <nav>
+    <div class="nav-inner">
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Catalog</a></li>
+        <li><a href="FAQs.html" class="active">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <a href="index.html" class="nav-logo"><img src="image/headerlogo.jpg" alt="Trend In Law"/></a>
+      <div class="nav-icons">
+        <button id="search-icon-button"><i class="fas fa-search"></i></button>
+        <button id="login-modal-button"><i class="fas fa-user"></i></button>
+        <div style="position:relative;">
+          <button id="cart-icon"><i class="fas fa-shopping-bag"></i><span class="cart-badge cart-count">0</span></button>
+        </div>
+        <button class="mobile-menu-btn" id="mobile-menu-button"><i class="fas fa-bars"></i></button>
+      </div>
+    </div>
+    <div id="search-input-container">
+      <input type="text" id="search-input" placeholder="SEARCH PRODUCTS..."/>
+    </div>
+  </nav>
+
+  <!-- Mobile menu overlay + menu -->
+  <div id="mobile-menu-overlay"></div>
+  <div id="mobile-menu">
+    <button id="close-mobile-menu"><i class="fas fa-times"></i></button>
+    <a href="index.html">Home</a>
+    <a href="shop.html">Catalog</a>
+    <a href="FAQs.html">FAQ's</a>
+    <a href="fastdelivery.html">Fast Delivery</a>
+    <a href="contact.html">Contact</a>
+    <a href="track.html">Track Order</a>
+  </div>
+
+  <!-- HERO SECTION (bold uppercase) -->
+  <section class="faq-hero">
+    <h1>SUPPORT / <span>FAQ</span></h1>
+  </section>
+
+  <!-- FAQ ACCORDION CONTENT -->
+  <div class="faq-container">
+
+    <!-- CATEGORY 1: Orders & Shipping -->
+    <div class="category-label">Orders & Shipping</div>
+
+    <div class="faq-card">
+      <div class="faq-question">
+        <h3>How can I track my order?</h3>
+        <i class="fas fa-plus"></i>
+      </div>
+      <div class="faq-answer">
+        <p>Once your order ships, you'll receive a tracking link via email and SMS. You can also log into your account and view order status under "Order History". Delivery updates are sent in real time.</p>
+      </div>
+    </div>
+
+    <div class="faq-card">
+      <div class="faq-question">
+        <h3>Do you ship internationally?</h3>
+        <i class="fas fa-plus"></i>
+      </div>
+      <div class="faq-answer">
+        <p>Yes, we ship worldwide. International delivery takes 7–14 business days. Duties and taxes may apply depending on your country's customs policy.</p>
+      </div>
+    </div>
+
+    <div class="faq-card">
+      <div class="faq-question">
+        <h3>What are the delivery charges?</h3>
+        <i class="fas fa-plus"></i>
+      </div>
+      <div class="faq-answer">
+        <p>Shipping is free on orders of RS 3,000 and above. For orders below that, a flat shipping fee of RS 200 applies.</p>
+      </div>
+    </div>
+
+    <!-- CATEGORY 2: Returns & Exchanges -->
+    <div class="category-label">Returns & Exchanges</div>
+
+    <div class="faq-card">
+      <div class="faq-question">
+        <h3>What is your return policy?</h3>
+        <i class="fas fa-plus"></i>
+      </div>
+      <div class="faq-answer">
+        <p>We accept returns within 7 days of delivery. Items must be unworn, with tags attached. To initiate a return, visit our Returns Center or contact support.</p>
+      </div>
+    </div>
+
+    <div class="faq-card">
+      <div class="faq-question">
+        <h3>How do I exchange an item?</h3>
+        <i class="fas fa-plus"></i>
+      </div>
+      <div class="faq-answer">
+        <p>Select the "Exchange" option on our returns portal. Choose the new size/color. If the item is available, we'll ship it after receiving the original. Price differences will be adjusted.</p>
+      </div>
+    </div>
+
+    <div class="faq-card">
+      <div class="faq-question">
+        <h3>Can I return sale items?</h3>
+        <i class="fas fa-plus"></i>
+      </div>
+      <div class="faq-answer">
+        <p>Sale items marked "Final Sale" cannot be returned. However, discounted items from regular collections are eligible for return within 7 days.</p>
+      </div>
+    </div>
+
+    <!-- CATEGORY 3: Sizing & Fit -->
+    <div class="category-label">Sizing & Fit</div>
+
+    <div class="faq-card">
+      <div class="faq-question">
+        <h3>How do I find my correct size?</h3>
+        <i class="fas fa-plus"></i>
+      </div>
+      <div class="faq-answer">
+        <p>We provide a detailed size guide on every product page. Measure your chest, waist, and hips and compare with our chart. If unsure, our customer support can help.</p>
+      </div>
+    </div>
+
+    <div class="faq-card">
+      <div class="faq-question">
+        <h3>Are your clothes true to size?</h3>
+        <i class="fas fa-plus"></i>
+      </div>
+      <div class="faq-answer">
+        <p>Most of our pieces follow standard sizing, but some have an oversized fit (noted in the description). Check the "fit" notes on the product page for guidance.</p>
+      </div>
+    </div>
+
+    <div class="faq-card">
+      <div class="faq-question">
+        <h3>What if I receive a wrong size?</h3>
+        <i class="fas fa-plus"></i>
+      </div>
+      <div class="faq-answer">
+        <p>Contact us immediately. We'll arrange a free exchange or provide a return label. Wrong items are replaced at no extra cost.</p>
+      </div>
+    </div>
+
+    <!-- STILL NEED HELP? SECTION -->
+    <div class="help-section">
+      <h2>Can't find what you're looking for?</h2>
+      <p>Our support team is ready to assist with any questions.</p>
+      <a href="contact.html" class="btn-neon">CONTACT US</a>
+    </div>
+
+  </div>
+
+  <!-- FOOTER (exact) -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="image/footer2.jpg" alt="Trend In Law" class="footer-brand-image"/>
+      </div>
+      <div class="footer-col">
+        <h4>Navigate</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="shop.html">Catalog</a></li>
+          <li><a href="aboutus.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a href="FAQs.html">FAQ's</a></li>
+          <li><a href="fastdelivery.html">Fast Delivery</a></li>
+          <li><a href="track.html">Track Your Order</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">WhatsApp</a></li>
+          <li><a href="#">TikTok</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Trend In Law. All rights reserved.</p>
+      <div class="footer-socials">
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-whatsapp"></i></a>
+        <a href="#"><i class="fab fa-tiktok"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Login / Register Modals (with proper IDs for backend integration) -->
+  <div id="login-modal">
+    <div class="auth-box">
+      <button class="modal-close" id="close-login-modal"><i class="fas fa-times"></i></button>
+      <h2>Sign In</h2>
+      <form id="loginForm">
+        <input type="email" id="login-email" placeholder="Email address" required/>
+        <input type="password" id="login-password" placeholder="Password" required/>
+        <button type="submit" id="login-submit-btn">Continue</button>
+      </form>
+      <p>Don't have an account? <a href="#" id="show-register">Register</a></p>
+    </div>
+  </div>
+
+  <div id="register-modal">
+    <div class="auth-box">
+      <button class="modal-close" id="close-register-modal"><i class="fas fa-times"></i></button>
+      <h2>Register</h2>
+      <form id="registerForm">
+        <input type="text" id="register-name" placeholder="Full name" required/>
+        <input type="email" id="register-email" placeholder="Email address" required/>
+        <input type="password" id="register-password" placeholder="Password" required/>
+        <button type="submit" id="register-submit-btn">Create Account</button>
+      </form>
+      <p>Already have an account? <a href="#" id="show-login">Sign In</a></p>
+    </div>
+  </div>
+
+  <!-- product modal stub (for add-to-cart compatibility) -->
+  <div id="product-modal">
+    <div class="modal-box">
+      <button class="modal-close" id="close-product-modal"><i class="fas fa-times"></i></button>
+      <div class="modal-title" id="modal-product-name"></div>
+      <div class="modal-price" id="modal-product-price"></div>
+      <div class="modal-label">Color</div><div class="modal-options" id="color-options"></div>
+      <div class="modal-label">Size</div><div class="modal-options" id="size-options"></div>
+      <div class="modal-label">Quantity</div>
+      <div style="display:flex; gap:10px; margin-bottom:20px;">
+        <button id="qty-minus">−</button><input type="number" id="modal-qty" value="1" min="1" style="width:50px; background:var(--surface); color:white; border:1px solid var(--border); text-align:center;"><button id="qty-plus">+</button>
+      </div>
+      <button class="btn-modal-add" id="modal-add-to-cart">Add to Cart</button>
+    </div>
+  </div>
+
+  <!-- ========== GLOBAL SCRIPT (cart, header functions, FAQ accordion, AUTH INTEGRATION) ========== -->
+  <script>
+    (function() {
+      // --- Helper function for DOM elements ---
+      const $ = id => document.getElementById(id);
+
+      // --- CART (identical to index) ---
+      const CART_KEY = 'til_cart';
+      function getCart() { return JSON.parse(localStorage.getItem(CART_KEY) || '[]'); }
+      function saveCart(c) { localStorage.setItem(CART_KEY, JSON.stringify(c)); }
+      
+      function updateCartCount() {
+        const total = getCart().reduce((s, i) => s + i.quantity, 0);
+        document.querySelectorAll('.cart-count').forEach(el => el.textContent = total);
+        const label = $('drawer-item-count');
+        if (label) label.textContent = total;
+      }
+      
+      function showToast(msg) {
+        const n = $('cart-notification');
+        if (!n) return;
+        n.textContent = msg; n.classList.add('show');
+        clearTimeout(n._timer);
+        n._timer = setTimeout(() => n.classList.remove('show'), 3000);
+      }
+      
+      function renderCartDrawer() {
+        const list = $('cart-items-list');
+        const subtotal = $('cart-subtotal');
+        if (!list) return;
+        const cart = getCart();
+        list.innerHTML = '';
+        if (cart.length === 0) {
+          list.innerHTML = '<div class="cart-empty"><i class="fas fa-shopping-bag"></i><span>Your cart is empty</span></div>';
+          if (subtotal) subtotal.textContent = 'RS 0';
+          return;
+        }
+        let total = 0;
+        cart.forEach(item => {
+          const itemTotal = item.price * item.quantity;
+          total += itemTotal;
+          const row = document.createElement('div');
+          row.className = 'cart-item-row';
+          row.innerHTML = `
+            <img class="cart-item-img" src="${item.image}" alt="${item.name}" onerror="this.src='image/placeholder.jpg'">
+            <div class="cart-item-details">
+              <div class="cart-item-name">${item.name}</div>
+              <div class="cart-item-meta">${[item.size, item.color].filter(Boolean).join(' · ')}</div>
+              <div class="cart-item-qty">
+                <button class="qty-btn-minus" data-id="${item.id}" data-color="${item.color}" data-size="${item.size}">−</button>
+                <span class="qty-num">${item.quantity}</span>
+                <button class="qty-btn-plus" data-id="${item.id}" data-color="${item.color}" data-size="${item.size}">+</button>
+              </div>
+            </div>
+            <div class="cart-item-right">
+              <span class="cart-item-price">RS ${itemTotal.toLocaleString()}</span>
+              <button class="cart-remove-btn" data-id="${item.id}" data-color="${item.color}" data-size="${item.size}"><i class="fas fa-trash-alt"></i> Remove</button>
+            </div>`;
+          list.appendChild(row);
+        });
+        if (subtotal) subtotal.textContent = `RS ${total.toLocaleString()}`;
+        
+        document.querySelectorAll('.qty-btn-minus').forEach(b => b.addEventListener('click', (e) => {
+          let cart = getCart(); 
+          let idx = cart.findIndex(i => i.id === b.dataset.id && i.color === b.dataset.color && i.size === b.dataset.size);
+          if (idx !== -1) { 
+            cart[idx].quantity = Math.max(1, cart[idx].quantity - 1); 
+            saveCart(cart); 
+            updateCartCount(); 
+            renderCartDrawer(); 
+          }
+        }));
+        
+        document.querySelectorAll('.qty-btn-plus').forEach(b => b.addEventListener('click', (e) => {
+          let cart = getCart(); 
+          let idx = cart.findIndex(i => i.id === b.dataset.id && i.color === b.dataset.color && i.size === b.dataset.size);
+          if (idx !== -1) { 
+            cart[idx].quantity += 1; 
+            saveCart(cart); 
+            updateCartCount(); 
+            renderCartDrawer(); 
+          }
+        }));
+        
+        document.querySelectorAll('.cart-remove-btn').forEach(b => b.addEventListener('click', () => {
+          let cart = getCart().filter(i => !(i.id === b.dataset.id && i.color === b.dataset.color && i.size === b.dataset.size));
+          saveCart(cart); 
+          updateCartCount(); 
+          renderCartDrawer(); 
+          showToast('Item removed');
+        }));
+      }
+      
+      function openCartDrawer() { 
+        renderCartDrawer(); 
+        $('cart-drawer')?.classList.add('open'); 
+        $('cart-overlay')?.classList.add('open'); 
+        document.body.style.overflow = 'hidden'; 
+      }
+      
+      function closeCartDrawer() { 
+        $('cart-drawer')?.classList.remove('open'); 
+        $('cart-overlay')?.classList.remove('open'); 
+        document.body.style.overflow = ''; 
+      }
+      
+      $('cart-icon')?.addEventListener('click', openCartDrawer);
+      $('close-cart-drawer')?.addEventListener('click', closeCartDrawer);
+      $('cart-overlay')?.addEventListener('click', closeCartDrawer);
+      $('btn-continue-shopping')?.addEventListener('click', closeCartDrawer);
+      $('btn-proceed-checkout')?.addEventListener('click', () => { 
+        if(getCart().length === 0) { 
+          showToast('Cart empty'); 
+          return; 
+        } 
+        window.location.href = 'order.html'; 
+      });
+
+      // --- AUTH MODALS with Backend Integration ---
+      const loginModal = $('login-modal');
+      const registerModal = $('register-modal');
+      
+      function openModal(el) { 
+        if (el) { 
+          el.classList.add('open'); 
+          document.body.style.overflow = 'hidden'; 
+        } 
+      }
+      
+      function closeModal(el) { 
+        if (el) { 
+          el.classList.remove('open'); 
+          if (!loginModal.classList.contains('open') && !registerModal.classList.contains('open')) {
+            document.body.style.overflow = ''; 
+          }
+        } 
+      }
+      
+      // Open login modal when user icon is clicked
+      $('login-modal-button')?.addEventListener('click', () => openModal(loginModal));
+      
+      // Close buttons for modals
+      $('close-login-modal')?.addEventListener('click', () => closeModal(loginModal));
+      $('close-register-modal')?.addEventListener('click', () => closeModal(registerModal));
+      
+      // Switch between login and register modals
+      $('show-register')?.addEventListener('click', e => { 
+        e.preventDefault(); 
+        closeModal(loginModal); 
+        openModal(registerModal); 
+      });
+      
+      $('show-login')?.addEventListener('click', e => { 
+        e.preventDefault(); 
+        closeModal(registerModal); 
+        openModal(loginModal); 
+      });
+      
+      // Close modals when clicking on overlay
+      loginModal?.addEventListener('click', e => { 
+        if (e.target === loginModal) closeModal(loginModal); 
+      });
+      
+      registerModal?.addEventListener('click', e => { 
+        if (e.target === registerModal) closeModal(registerModal); 
+      });
+
+      // --- LOGIN FORM SUBMISSION with API.auth.login ---
+      const loginForm = $('loginForm');
+      if (loginForm) {
+        loginForm.addEventListener('submit', async function(e) {
+          e.preventDefault();
+          
+          const email = $('login-email')?.value.trim() || '';
+          const password = $('login-password')?.value.trim() || '';
+          const submitBtn = $('login-submit-btn');
+          const originalText = submitBtn ? submitBtn.textContent : 'Continue';
+
+          if (!email || !password) {
+            showToast('Please enter both email and password.');
+            return;
+          }
+
+          // Show loading state
+          if (submitBtn) {
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...';
+            submitBtn.disabled = true;
+          }
+
+          try {
+            // Call the backend API
+            await API.auth.login({ email, password });
+            
+            // Success
+            showToast('Login successful!');
+            closeModal(loginModal);
+            updateAuthUI(true);
+            
+            // Reset form
+            loginForm.reset();
+          } catch (error) {
+            showToast(error.message || 'Login failed. Please try again.');
+          } finally {
+            // Reset button state
+            if (submitBtn) {
+              submitBtn.innerHTML = originalText;
+              submitBtn.disabled = false;
+            }
+          }
+        });
+      }
+
+      // --- REGISTER FORM SUBMISSION with API.auth.register ---
+      const registerForm = $('registerForm');
+      if (registerForm) {
+        registerForm.addEventListener('submit', async function(e) {
+          e.preventDefault();
+          
+          const fullName = $('register-name')?.value.trim() || '';
+          const email = $('register-email')?.value.trim() || '';
+          const password = $('register-password')?.value.trim() || '';
+          const submitBtn = $('register-submit-btn');
+          const originalText = submitBtn ? submitBtn.textContent : 'Create Account';
+
+          // Split full name into first and last name (API expects firstName, lastName)
+          const nameParts = fullName.split(' ');
+          const firstName = nameParts[0] || '';
+          const lastName = nameParts.slice(1).join(' ') || '';
+
+          // Validation
+          if (!firstName || !email || !password) {
+            showToast('Please fill in all required fields.');
+            return;
+          }
+
+          if (password.length < 6) {
+            showToast('Password must be at least 6 characters long.');
+            return;
+          }
+
+          // Show loading state
+          if (submitBtn) {
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating account...';
+            submitBtn.disabled = true;
+          }
+
+          try {
+            // Call the backend API
+            await API.auth.register({ firstName, lastName, email, password });
+            
+            // Success
+            showToast('Registration successful! You are now logged in.');
+            closeModal(registerModal);
+            updateAuthUI(true);
+            
+            // Reset form
+            registerForm.reset();
+          } catch (error) {
+            showToast(error.message || 'Registration failed. Please try again.');
+          } finally {
+            // Reset button state
+            if (submitBtn) {
+              submitBtn.innerHTML = originalText;
+              submitBtn.disabled = false;
+            }
+          }
+        });
+      }
+
+      // --- Update UI based on login state ---
+      function updateAuthUI(isLoggedIn) {
+        const loginBtn = $('login-modal-button');
+        if (loginBtn) {
+          if (isLoggedIn) {
+            loginBtn.innerHTML = '<i class="fas fa-user-check"></i>';
+            loginBtn.title = 'Logged In';
+          } else {
+            loginBtn.innerHTML = '<i class="fas fa-user"></i>';
+            loginBtn.title = 'Sign In';
+          }
+        }
+      }
+
+      // --- mobile menu ---
+      const mobileMenu = $('mobile-menu');
+      const mobileOverlay = $('mobile-menu-overlay');
+      
+      function openMobile() { 
+        mobileMenu.classList.add('open'); 
+        mobileOverlay.classList.add('open'); 
+        document.body.style.overflow = 'hidden'; 
+      }
+      
+      function closeMobile() { 
+        mobileMenu.classList.remove('open'); 
+        mobileOverlay.classList.remove('open'); 
+        document.body.style.overflow = ''; 
+      }
+      
+      $('mobile-menu-button')?.addEventListener('click', openMobile);
+      $('close-mobile-menu')?.addEventListener('click', closeMobile);
+      mobileOverlay?.addEventListener('click', closeMobile);
+
+      // --- search ---
+      $('search-icon-button')?.addEventListener('click', () => { 
+        $('search-input-container').classList.toggle('active'); 
+      });
+
+      // --- back to top ---
+      const backBtn = $('back-to-top');
+      window.addEventListener('scroll', () => { 
+        backBtn?.classList.toggle('visible', window.scrollY > 400); 
+      });
+      backBtn?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+      // --- FAQ ACCORDION (smooth toggle) ---
+      document.querySelectorAll('.faq-question').forEach(q => {
+        q.addEventListener('click', function() {
+          const card = this.closest('.faq-card');
+          card.classList.toggle('active');
+        });
+      });
+
+      // --- Initialize ---
+      updateCartCount();
+      
+      // Check if user is already logged in (token exists)
+      if (window.API && API.auth.isLoggedIn()) {
+        updateAuthUI(true);
+      }
+
+    })();
+  </script>
+</body>
+</html>

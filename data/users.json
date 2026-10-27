@@ -1,0 +1,11 @@
+[
+  {
+    "id": "f56b37b7-9a9f-4206-9b1c-6abaffe1ef43",
+    "firstName": "Disha",
+    "lastName": "Mehta",
+    "email": "disha.mehta91205@gmail.com",
+    "password": "$2b$10$xCGyZIB9d3PrAdXqqy/HkujY7taEvLpmJzONIjSKXdvbQ0Pz2VdYK",
+    "role": "customer",
+    "createdAt": "2026-10-27T10:37:57.365Z"
+  }
+]

@@ -1,0 +1,30 @@
+[
+  {
+    "id": "188037c0-1cd6-447a-816b-86112384c30b",
+    "userId": "f56b37b7-9a9f-4206-9b1c-6abaffe1ef43",
+    "customerDetails": {
+      "fullName": "Disha Mehta",
+      "phone": "+917404033887",
+      "email": "disha.mehta91205@gmail.com"
+    },
+    "items": [
+      {
+        "productId": "shop-p2",
+        "name": "Vintage Band Tee",
+        "price": 2299,
+        "quantity": 1,
+        "size": "S",
+        "color": "Navy Blue",
+        "image": "image/trendingpro2.jpg"
+      }
+    ],
+    "subtotal": 2299,
+    "shippingFee": 200,
+    "totalAmount": 2499,
+    "shippingAddress": "Aggarsain colony,Sirsa, Aggarsain colony, Haryana",
+    "paymentMethod": "Paytm",
+    "status": "Pending",
+    "createdAt": "2026-10-27T10:39:02.919Z",
+    "updatedAt": "2026-10-27T10:39:02.919Z"
+  }
+]
